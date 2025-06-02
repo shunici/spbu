@@ -1,0 +1,11 @@
+proses input atau add gajih
+ketika user tekan tombol add, maka controller mengirimkan
+data user untuk bulan ini  apakah ada atau tidak
+
+jika ada sisa user yang belum diinput, in last minute di bulan terkahir laravel akan membuat task schedul insert
+sisa user yang belum.
+
+pada tombol add dibagian kolom user ada nama nama, nama tersebut sudah terseleksi
+user yang sudah inset pada tabel gajih tidak akan di list
+
+

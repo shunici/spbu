@@ -1,0 +1,6 @@
+AppServiceProvider
+use Illuminate\Support\Facades\Schema;
+
+Schema::defaultStringLength(191);
+
+php artisan migrate:fresh
