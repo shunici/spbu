@@ -14,9 +14,9 @@ class HomeController extends Controller
         $data = aplikasi::latest()->first();
         $meta = [
             "title" => $data->nama,
-            "description" => "Sistem Informasi Manajemen Masjid",
-            "url" => 'https://masjid-nurul-iman.site',
-            "image" => 'https://masjid-nurul-iman.site'. '/storage/aplikasi/'. $data->logo   
+            "description" => "Rekapitulasi SPBU",
+            "url" => 'https://spbu.site',
+            "image" => 'https://spbu.site'. '/storage/aplikasi/'. $data->logo   
         ];                               
     
         return view('index', ['meta' => $meta]);
