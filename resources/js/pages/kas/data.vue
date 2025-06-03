@@ -64,12 +64,12 @@
 
                                 <template #cell(sumber_kas)="row">
                                     <div v-if="row.item.jenis_aksi"  @click="row.toggleDetails">
-                                        {{row.item.jenis_aksi == "masjid_ke_bank" ? 'Tunai' : 'Bank'}}
+                                        {{row.item.jenis_aksi == "kantor_ke_bank" ? 'Kantor' : 'Bank'}}
                                     </div>
                                 </template> 
                                   <template #cell(tujuan_kas)="row">
                                     <div v-if="row.item.jenis_aksi"  @click="row.toggleDetails">
-                                       {{row.item.jenis_aksi == "masjid_ke_bank" ? 'Bank' : 'Tunai'}}
+                                       {{row.item.jenis_aksi == "kantor_ke_bank" ? 'Bank' : 'Kantor'}}
                                     </div>
                                 </template> 
 
@@ -81,9 +81,9 @@
                                     </div>                              
                                                                                                         
                                 </template>
-                                 <template #cell(masjid)="row">  
+                                 <template #cell(kantor)="row">  
                                      <div @click="row.toggleDetails">
-                                        {{row.item.masjid | currency}}      
+                                        {{row.item.kantor | currency}}      
                                         <span class="badge badge-dark float-right" v-if="row.item.perubahanM">R</span> 
                                     </div>                              
                                                                                                        
@@ -98,7 +98,7 @@
                                    
                                  <template #cell(total)="row">                                
                                  <div @click="row.toggleDetails">
-                                   {{row.item.bank + row.item.masjid | currency}}   
+                                   {{row.item.bank + row.item.kantor | currency}}   
                                      
                                   </div>                                                                     
                                 </template>
@@ -121,11 +121,11 @@
                                 </p>
                                 
                                 <hr>
-                                <strong><i class="fa fa-fax mr-1"></i> Kas Tunai</strong>
+                                <strong><i class="fa fa-fax mr-1"></i> Kas Kantor</strong>
                                 <p style="font-size:1.5rem" class="font-weight-bold">
-                                Rp  {{row.item.masjid | currency}} 
+                                Rp  {{row.item.kantor | currency}} 
                                 </p> 
-                                <p><i> {{row.item.masjid ? row.item.masjid : 0 | terbilang}} rupiah</i></p>
+                                <p><i> {{row.item.kantor ? row.item.kantor : 0 | terbilang}} rupiah</i></p>
                                 
                                 <hr>
                                 <strong><i class="fa fa-fax mr-1"></i> Kas Bank</strong>
@@ -185,7 +185,7 @@ moment.locale('id');
                     {key: 'jumlah', label : 'Jumlah' },  
                     {key: 'sumber_kas', label : 'Sumber Kas' },  
                     {key: 'tujuan_kas',  label : 'Tujuan Kas'},        
-                    {key: 'masjid', label : 'Tunai' },    
+                    {key: 'kantor', label : 'Kantor' },    
                     {key: 'bank', label : 'Bank' },  
                      {key: 'total', label : 'Total' }                                                                                                   
                 ],     

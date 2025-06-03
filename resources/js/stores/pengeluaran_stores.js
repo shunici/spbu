@@ -15,7 +15,7 @@ const state = () => ({
         user : '',
         rekapitulasi_id : '',  
         foto : '',  
-        kas : 'masjid',                        
+        kas : 'kantor',                        
     },  
     foto_db : '',
     selected_kategori :  { value: '', label: 'PILIH KATEGORI' },
@@ -48,7 +48,7 @@ const mutations = {
     CLEAR_FORM(state) {
         state.pengeluaran.uraian = '';
         state.pengeluaran.total = 0;  
-        state.pengeluaran.kas = 'masjid';  
+        state.pengeluaran.kas = 'kantor';  
         // state.pengeluaran.kategori_id = '';   
         // state.pengeluaran.user_id = '';  
         state.pengeluaran.rekapitulasi_id = ''; 

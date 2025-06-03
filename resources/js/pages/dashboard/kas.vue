@@ -7,10 +7,10 @@
           <div class="col-lg-4 col-12">
             <!-- small box --> 
             <div class="info-box">
-              <span class="info-box-icon bg-info" v-b-tooltip.hover.left :title="terbilang_konver(kas.masjid)"><i class="ion ion-briefcase"></i></span>
+              <span class="info-box-icon bg-info" v-b-tooltip.hover.left :title="terbilang_konver(kas.kantor)"><i class="ion ion-briefcase"></i></span>
               <div class="info-box-content">
-                <span class="info-box-text">Kas Tunai</span>
-                <span class="info-box-number" v-b-tooltip.hover.bottom :title="terbilang_konver(kas.masjid)">Rp {{kas.masjid | currency}}</span>
+                <span class="info-box-text">Kas Kantor</span>
+                <span class="info-box-number" v-b-tooltip.hover.bottom :title="terbilang_konver(kas.kantor)">Rp {{kas.kantor | currency}}</span>
               </div>
               <!-- /.info-box-content -->
             </div>       
@@ -32,11 +32,11 @@
           <div class="col-lg-4 col-12">         
             <!-- small box --> 
             <div class="info-box">
-              <span class="info-box-icon bg-danger" v-b-tooltip.hover.left :title="terbilang_konver(kas.bank + kas.masjid)"><i class="ion ion-clipboard"></i></span>
+              <span class="info-box-icon bg-danger" v-b-tooltip.hover.left :title="terbilang_konver(kas.bank + kas.kantor)"><i class="ion ion-clipboard"></i></span>
 
               <div class="info-box-content">
                 <span class="info-box-text">Total Seluruh</span>
-                <span class="info-box-number" v-b-tooltip.hover.bottom :title="terbilang_konver(kas.bank + kas.masjid)">Rp {{kas.bank + kas.masjid | currency}}</span>
+                <span class="info-box-number" v-b-tooltip.hover.bottom :title="terbilang_konver(kas.bank + kas.kantor)">Rp {{kas.bank + kas.kantor | currency}}</span>
               </div>
               <!-- /.info-box-content -->
             </div>          

@@ -40,7 +40,7 @@ class kasController extends Controller
   {
       $this->validate($request, [
         'input' => 'required',         
-        'masjid' => 'required',    
+        'kantor' => 'required',    
         'bank' => 'required',      
       ]);      
       try {       

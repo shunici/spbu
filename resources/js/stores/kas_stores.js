@@ -10,15 +10,15 @@ const state = () => ({
     kas : {
         uraian : '',
         input : '',
-        masjid : '',
+        kantor : '',
         bank : '',
-        jenis_aksi : 'masjid_ke_bank', 
+        jenis_aksi : 'kantor_ke_bank', 
         user_id : '',
         history : '',
         foto : '',  
     },
     kas_sekarang : {
-            masjid : 0,
+            kantor : 0,
             bank : 0,
     },  
     pesan : {
@@ -40,10 +40,10 @@ const mutations = {
     },
     
     KAS_SEKARANG(state, payload) {
-        state.kas_sekarang.masjid = payload.masjid;
+        state.kas_sekarang.kantor = payload.kantor;
         state.kas_sekarang.bank = payload.bank;
 
-        // state.kas.masjid = payload.masjid;
+        // state.kas.kantor = payload.kantor;
         // state.kas.bank = payload.bank;
 
     },
@@ -61,13 +61,13 @@ const mutations = {
     },
     SET_moveValue(state, payload) {
         
-        if (state.kas.jenis_aksi === 'masjid_ke_bank') {                        
-            state.kas.masjid =  parseInt(state.kas_sekarang.masjid) - parseInt(payload);
+        if (state.kas.jenis_aksi === 'kantor_ke_bank') {                        
+            state.kas.kantor =  parseInt(state.kas_sekarang.kantor) - parseInt(payload);
             state.kas.bank =  parseInt(state.kas_sekarang.bank) + parseInt(payload);
           } 
         
-          if (state.kas.jenis_aksi === 'bank_ke_masjid') {                                                        
-            state.kas.masjid =  parseInt(state.kas_sekarang.masjid) + parseInt(payload);
+          if (state.kas.jenis_aksi === 'bank_ke_kantor') {                                                        
+            state.kas.kantor =  parseInt(state.kas_sekarang.kantor) + parseInt(payload);
             state.kas.bank =  parseInt(state.kas_sekarang.bank) - parseInt(payload);
           } 
           state.kas.input = payload;

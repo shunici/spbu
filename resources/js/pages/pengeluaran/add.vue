@@ -98,16 +98,16 @@ import { mapActions, mapState, mapMutations } from 'vuex'
               proses (ev) {
 
                   ev.preventDefault()
-                  var kas_masjid = this.kas_sekarang.masjid;
+                  var kas_kantor = this.kas_sekarang.kantor;
                    var kas_bank = this.kas_sekarang.bank;
                    var total = this.pengeluaran.total;
                    var jenis_kas = this.pengeluaran.kas;
                    
-                    if(jenis_kas == 'masjid') {                
-                                  if(kas_masjid > total ) {                  
+                    if(jenis_kas == 'kantor') {                
+                                  if(kas_kantor > total ) {                  
                                   this.submit()
                                   } else {
-                                    alert ('uang kas masjid tidak cukupp');
+                                    alert ('uang kas kantor tidak cukupp');
                                   }
                   } //jenis kas
 

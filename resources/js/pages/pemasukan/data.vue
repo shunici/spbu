@@ -151,7 +151,7 @@
                                  <template #cell(total)="row">
                                     <div @click="row.toggleDetails">
                                         {{row.item.total | currency}} 
-                                        <span class="badge float-right " :class="row.item.kas =='masjid' ? 'badge-primary' : 'badge-warning' " > {{row.item.kas == 'masjid' ? 'M' : 'B'}}</span>
+                                        <span class="badge float-right " :class="row.item.kas =='kantor' ? 'badge-primary' : 'badge-warning' " > {{row.item.kas == 'kantor' ? 'K' : 'B'}}</span>
                                     </div> 
                                 </template>
 

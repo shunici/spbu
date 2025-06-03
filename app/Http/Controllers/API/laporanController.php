@@ -155,13 +155,11 @@ class laporanController extends Controller
             " 'Wendy One', sans-serif " => 'Wendy One',             
           ];
         $laporan = array(
-            "Laporan Saldo jum'at ",
+            "Laporan Saldo ",
             "Laporan Harian",
-            "Laporan Penggajihan",   
-            "PHBI",   
-            "Permohonan Bantuan Dana",
-            "SK Pengurus Masjid",
-            "Kabar Duka"
+            "Laporan Penggajihan",                 
+            "Permohonan Bantuan Dana",         
+          
         );
         
         return response()->json([

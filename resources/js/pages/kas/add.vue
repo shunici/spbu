@@ -6,13 +6,13 @@
 <table class="table table-bordered table-sm">
   <thead class="thead-dark">   
     <tr>
-      <th class="text-uppercase">kas Tunai</th>
+      <th class="text-uppercase">kas Kantor</th>
       <th class="text-uppercase">kas Bank</th>    
     </tr>
   </thead>
   <tbody>
     <tr>   
-      <td>{{kas_sekarang.masjid | currency}}</td>
+      <td>{{kas_sekarang.kantor | currency}}</td>
       <td>{{kas_sekarang.bank | currency}}</td>
     </tr>
   </tbody>
@@ -28,12 +28,12 @@
          <label for="kas" class="text-uppercase">perpindahan kas</label> <br>
          <div class="form-check form-check-inline">
            <label class="form-check-label text-uppercase" >
-             <input class="form-check-input" v-model="kas.jenis_aksi" type="radio" name="kas" id="kas" value="masjid_ke_bank" @click="handleClick" > dari tunai ke bank
+             <input class="form-check-input" v-model="kas.jenis_aksi" type="radio" name="kas" id="kas" value="kantor_ke_bank" @click="handleClick" > dari Kantor ke bank
            </label>
          </div>
          <div class="form-check form-check-inline">
            <label class="form-check-label text-uppercase" >
-             <input class="form-check-input" v-model="kas.jenis_aksi"  type="radio" name="kas" id="kas" value="bank_ke_masjid" @click="handleClick" > dari bank ke tunai
+             <input class="form-check-input" v-model="kas.jenis_aksi"  type="radio" name="kas" id="kas" value="bank_ke_kantor" @click="handleClick" > dari bank ke Kantor
            </label>
          </div>   
           <p class="text-danger" v-if="errors.kas"><i>Jenis Transaksi Wajid Diconteng Salah Satu</i></p>
@@ -53,13 +53,13 @@
 <table class="table table-bordered table-sm" ref="history">
   <thead class="thead-dark">   
     <tr>
-      <th class="text-uppercase">kas tunai</th>
+      <th class="text-uppercase">kas Kantor</th>
       <th class="text-uppercase">kas Bank</th>    
     </tr>
   </thead>
   <tbody>
     <tr>   
-      <td>{{kas.masjid | currency}}</td>
+      <td>{{kas.kantor | currency}}</td>
       <td>{{kas.bank | currency}}</td>
     </tr>
   </tbody>
@@ -157,17 +157,36 @@ import uangInput from '../../components/uang_input.vue';
               proses (ev) {
                   ev.preventDefault()
                   this.copyTableToClipboard();
-                  this.submit_kas().then(() => {
-                        this.pesan.sukses = true
-                     setTimeout(function () {
-                        this.get_kas();
-                        //close modal
-                        this.$bvModal.hide('add-kas')
-                        this.CLEAR_FORM();
-                         this.pesan.sukses = false
-                    }.bind(this), 1700);
 
-                  } ); //this submit                                                   
+                  
+                    const laksanakan = () => {
+                        this.submit_kas().then(() => {
+                              this.pesan.sukses = true
+                          setTimeout(function () {
+                              this.get_kas();
+                              //close modal
+                              this.$bvModal.hide('add-kas')
+                              this.CLEAR_FORM();
+                              this.pesan.sukses = false
+                          }.bind(this), 1700);
+                        } ); //this submit  
+                    };
+
+                //dari kantor ke bank
+                  if(this.kas.jenis_aksi == 'kantor_ke_bank') {                
+                    if(this.moveValue <= this.kas_sekarang.kantor) {
+                       laksanakan();
+                    }else { alert('uang kas kantor tidak cukup');}
+                }
+
+                //dari bank ke kantor
+                  if(this.kas.jenis_aksi == 'bank_ke_kantor') {                
+                    if(this.moveValue <= this.kas_sekarang.bank) {
+                       laksanakan();
+                    }else { alert('uang kas bank tidak cukup');}
+                }
+               
+                                                               
               },
                handleClick(event) {
                     // Ambil value yang dipilih

@@ -40,7 +40,7 @@ class InsertRekapitulasi extends Command
     public function handle()
     {
         $tgl_mulai = Carbon::now();
-        $jumatDepan = Carbon::now()->next('Friday')->setTime(12, 0);
+        $tgl_akhir =  Carbon::now()->endOfMonth()->setTime(12, 0);
         $rek = DB::table('rekapitulasis')->latest()->first();
         $users = DB::table('rekapitulasis')->insert(
             [ 
@@ -50,7 +50,7 @@ class InsertRekapitulasi extends Command
                 "pemasukan_rek" => 0,
                 "pengeluaran_rek" => 0,
                 "tgl_mulai" => $tgl_mulai,
-                "tgl_akhir" => $jumatDepan,
+                "tgl_akhir" => $tgl_akhir,
                 "created_at" => $tgl_mulai,
                 "updated_at" => $tgl_mulai
                 

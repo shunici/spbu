@@ -86,11 +86,11 @@ class pengeluaranController extends Controller
          }  
 
       
-         //proses input kass masjid atau kas bank
+         //proses input kass kantor atau kas bank
          $input_kas = $request->kas;
          $kas = kas::latest()->first();
-         if($input_kas == 'masjid') {
-             $kas->masjid = $kas->masjid - $request->total;
+         if($input_kas == 'kantor') {
+             $kas->kantor = $kas->kantor - $request->total;
              $kas->perubahanM = true;
              $kas->save();
          } else { //berarti bank
@@ -158,21 +158,21 @@ class pengeluaranController extends Controller
               $input['foto'] = $foto;    
               
               
-              //proses input kass masjid atau kas bank
+              //proses input kass kantor atau kas bank
               $input_kas = $request->kas;
               $kas = kas::latest()->first();
-              if($input_kas == 'masjid' && $data->kas == 'masjid' ) {
+              if($input_kas == 'kantor' && $data->kas == 'kantor' ) {
                   //total dikembalikan dulu
-                  $kas_masjid_awal = $kas->masjid + $data->total;
-                  $kas->masjid = $kas_masjid_awal - $request->total;                  
+                  $kas_kantor_awal = $kas->kantor + $data->total;
+                  $kas->kantor = $kas_kantor_awal - $request->total;                  
                   $kas->save();
               } 
               
-              //kondisi jika skrang kas bank dan sebelumnya kas masjid
-              if($input_kas == 'bank' && $data->kas == 'masjid' ) {
+              //kondisi jika skrang kas bank dan sebelumnya kas kantor
+              if($input_kas == 'bank' && $data->kas == 'kantor' ) {
                   //total dikembalikan dulu
-                  $kas_masjid_awal = $kas->masjid + $data->total;
-                  $kas->masjid = $kas_masjid_awal;
+                  $kas_kantor_awal = $kas->kantor + $data->total;
+                  $kas->kantor = $kas_kantor_awal;
                   
                   $kas->bank = $kas->bank - $request->total;
                   $kas->save();
@@ -185,13 +185,13 @@ class pengeluaranController extends Controller
                   $kas->save();
               }
 
-              //kondisi jika sekarang masjid dan sebelumnya bank                
-              if(($input_kas == 'masjid' && $data->kas == 'bank')) { // bank                    
+              //kondisi jika sekarang kantor dan sebelumnya bank                
+              if(($input_kas == 'kantor' && $data->kas == 'bank')) { // bank                    
                   //total dikembalikan dulu
                   $kas_bank_awal = $kas->bank + $data->total;
                   $kas->bank = $kas_bank_awal;
 
-                  $kas->masjid = $kas->masjid - $request->total;
+                  $kas->kantor = $kas->kantor - $request->total;
                   $kas->save();
               }           
 
@@ -240,8 +240,8 @@ class pengeluaranController extends Controller
             $rekapitulasi->save();
         }    
         $kas = kas::latest()->first();
-        if($data->kas == 'masjid') {
-            $kas->masjid =  $kas->masjid + $data->total;
+        if($data->kas == 'kantor') {
+            $kas->kantor =  $kas->kantor + $data->total;
             $kas->save();
         } else { //berarti bank
             $kas->bank = $kas->bank + $data->total;

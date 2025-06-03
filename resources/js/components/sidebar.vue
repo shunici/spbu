@@ -130,12 +130,6 @@
               <i class="nav-icon fa fa-window-restore"></i>
               <p>Kategori</p>
             </router-link>
-          </li>   
-          <li class="nav-item" v-if="$role(2) || $role(3) || $role(1)"  @click="ganti_menu('barang')">
-            <router-link :to="{name : 'barang'}" class="nav-link" :class="{active : posisi == 'barang'}">
-              <i class="nav-icon fa fa-window-maximize"></i>
-              <p>Barang</p>
-            </router-link>
           </li>  
               <li class="nav-item" v-if="$role(1)">
                 <router-link :to="{name : 'role'}"  class="nav-link">                              

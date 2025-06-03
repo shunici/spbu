@@ -27,7 +27,7 @@
       <label for="#" class="text-uppercase">Dana keluar menggunakan kas</label> <br> 
         <div class="form-check form-check-inline">
           <label class="form-check-label text-uppercase">
-            <input class="form-check-input " type="radio" name="kas" id="" value="masjid" v-model="pengeluaran.kas"> Kas Tunai
+            <input class="form-check-input " type="radio" name="kas" id="" value="kantor" v-model="pengeluaran.kas"> Kas Kantor
           </label>
         </div>
         
@@ -42,13 +42,13 @@
 <table class="table table-bordered table-sm mt-3">
   <thead class="thead-dark">   
     <tr>
-      <th class="text-uppercase">kas Tunai</th>
+      <th class="text-uppercase">kas Kantor</th>
       <th class="text-uppercase">kas Bank</th>    
     </tr>
   </thead>
   <tbody>
     <tr>   
-      <td>{{kas_sekarang.masjid | currency}}</td>
+      <td>{{kas_sekarang.kantor | currency}}</td>
       <td>{{kas_sekarang.bank | currency}}</td>
     </tr>
   </tbody>

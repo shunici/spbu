@@ -150,9 +150,9 @@ class inventarisController extends Controller
     private function kategori_inventaris ()  
     {
         $kategori = array(
-            'Operasional Masjid',
+            'Operasional',
             'Alat Parkiran',
-            'Perlengkapan Sholat',
+            'Perlengkapan',
             'Alat Penunjang',
         );
         return $kategori;
