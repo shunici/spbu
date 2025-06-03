@@ -1,1 +1,42 @@
+<<<<<<< HEAD
 sdfgit dsfsdfdsf
+=======
+hapus link 
+rm public_html -rf
+
+buat dan
+atur ke public_html 
+ln -s /home/u354222138/domains/spbu.site/spbu/public /home/u354222138/domains/spbu.site/public_html
+
+php artisan storage:link, cd public
+
+ln -s /home/u354222138/domains/spbu.site/spbu/storage/app/public /home/u354222138/domains/spbu.site/spbu/public/storage
+
+DB_DATABASE=u354222138_spbu
+DB_USERNAME=u354222138_spbu_blek
+DB_PASSWORD=100694Takut!
+
+
+
+cp .env.example .env
+
+
+php artisan key:generate
+
+
+
+php artisan cache:clear
+php artisan route:clear
+php artisan config:clear
+
+
+cronjob
+usr/bin/php /home/u354222138/domains/spbu.site/spbu/artisan insert:rekapitulasi
+
+55 13 * * 5
+Setiap hari Jumat pada pukul 13:55 (1 siang lewat 55 menit).
+
+
+
+php artisan insert:rekapitulasi
+>>>>>>> 36b37f0 (perbarui tunai jadi kantor)
