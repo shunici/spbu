@@ -15,7 +15,8 @@ const state = () => ({
         user : '',
         rekapitulasi_id : '',  
         foto : '',  
-        kas : 'kantor',                        
+        kas : 'kantor',  
+        tgl : moment().format('YYYY-MM-DD HH:mm:ss'),                      
     },  
     foto_db : '',
     selected_kategori :  { value: '', label: 'PILIH KATEGORI' },
@@ -75,6 +76,7 @@ const mutations = {
         state.pengeluaran.rekapitulasi_id =payload.rekapitulasi_id;
         state.pengeluaran.user_id =payload.user_id;     
         state.pengeluaran.foto = '/storage/pengeluaran/' + payload.foto; 
+        state.pengeluaran.tgl =payload.tgl;  
     },            
     SHOW_FOTO(state, payload) {
         state.pengeluaran.foto =  payload   
@@ -117,6 +119,7 @@ const actions = {
         form.append('rekapitulasi_id', state.pengeluaran.rekapitulasi_id)      
         form.append('kas', state.pengeluaran.kas)
         form.append('foto', state.foto_db)
+        form.append('tgl', state.pengeluaran.tgl)
         console.info('pengeluaran', form)
         return new Promise((resolve, reject) => {
             $axios.post(`/pengeluaran`, form, {
@@ -168,7 +171,8 @@ const actions = {
         form.append('user_id', state.pengeluaran.user_id)
         form.append('rekapitulasi_id', state.pengeluaran.rekapitulasi_id)
         form.append('kas', state.pengeluaran.kas)
-        form.append('foto', state.foto_db)     
+        form.append('foto', state.foto_db)   
+        form.append('tgl', state.pengeluaran.tgl)  
         return new Promise((resolve, reject) => {
             $axios.post(`/pengeluaran/update/${state.id}`, form,{
                 headers: {'Content-Type': 'multipart/form-data'}

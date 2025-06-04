@@ -157,7 +157,7 @@
 
                                   <template #cell(created_at)="row">
                                
-                                        {{tgl_show(row.item.created_at)}}
+                                        {{tgl_show(row.item.tgl)}}
                             
                                 </template>
 

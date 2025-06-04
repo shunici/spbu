@@ -73,8 +73,9 @@
                       <label class="custom-file-label" for="exampleInputFile">Pilih Foto</label>
                   </div>
             </div>
-        </div>                    
-
+        </div>    
+    <label for="tanggal" class="text-uppercase">tanggal transaksi</label>                   
+<b-form-datepicker id="tanggal"   v-model="pemasukan.tgl"  :locale="'id'"  class="mb-2"></b-form-datepicker>          
  <div v-if="Object.keys(errors).length">
       <ul>
         <li v-for="(messages, field) in errors" :key="field">

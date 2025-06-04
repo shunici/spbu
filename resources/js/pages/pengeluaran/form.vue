@@ -76,7 +76,9 @@
         </div>
         
 
-     
+        
+    <label for="tanggal" class="text-uppercase">tanggal transaksi</label>                   
+<b-form-datepicker id="tanggal"   v-model="pengeluaran.tgl"  :locale="'id'"  class="mb-2"></b-form-datepicker>          
       
  <div v-if="Object.keys(errors).length">
       <ul>
