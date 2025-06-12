@@ -156,8 +156,10 @@
                                 </template>
 
                                   <template #cell(created_at)="row">
-                               
-                                        {{tgl_show(row.item.tgl)}}
+                               <div @click="row.toggleDetails">
+                                    {{tgl_show(row.item.tgl)}}
+                               </div>
+                                 
                             
                                 </template>
 
@@ -204,7 +206,7 @@
                                 
                                 <hr>
                                 <strong><i class="fa fa-user mr-1"></i> Dibuat oleh</strong>
-                                <p class="text-muted"> {{row.item.user.name}} | {{row.item.user.role.name}} </p>
+                                 <p class="text-muted"> {{row.item.user.name}} | {{row.item.user.jabatan.nama_jabatan}} </p>
                             <hr>
                                 <strong><i class="fa fa-calendar mr-1"></i> Tanggal dibuat</strong>
                                 <p class="text-muted">

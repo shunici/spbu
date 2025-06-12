@@ -24,29 +24,36 @@ class pemasukanController extends Controller
     {
  
         $kataKunci = request()->q;
-        $urutan = request()->urutan;    
+        $urutan = request()->urutan;   
         $tahun = request()->tahun;
-        $bulan = request()->bulan;
-        $rekapitulasi = Rekapitulasi::with(['pemasukan.kategori', 'pemasukan.user.Role'])
-        ->orderBy('created_at', $urutan);
-        if($bulan) {
+        $bulan = request()->bulan; 
+        
+        $rekapitulasi = Rekapitulasi::with([
+            'pemasukan' => function ($query) use ($urutan) {
+                $query->orderBy('tgl', 'asc') // atau ganti dengan 'tgl' jika ada
+                      ->with(['kategori', 'user.Role', 'user.jabatan']);
+            }
+        ])->orderBy('created_at', $urutan);
+        
+        if ($bulan) {
             $rekapitulasi->whereMonth('created_at', $bulan);
         }       
-        if($tahun) {
+        
+        if ($tahun) {
             $rekapitulasi->whereYear('created_at', $tahun);
-        }      
-    
-        // Filter berdasarkan uraian, total, dan kategori
+        }        
+        
         $rekapitulasi = $rekapitulasi->whereHas('pemasukan', function ($query) use ($kataKunci) {
             $query->where('uraian', 'like', '%' . $kataKunci . '%')
                 ->orWhere('total', 'like', '%' . $kataKunci . '%')
                 ->orWhereHas('kategori', function ($query) use ($kataKunci) {
                     $query->where('nama', 'like', '%' . $kataKunci . '%');
                 });
-        });      
-    
+        });
+        
         $rekapitulasi = $rekapitulasi->paginate(request()->per_page);    
-        return new UserCollection($rekapitulasi);  
+        
+        return new UserCollection($rekapitulasi); 
     }
 
     private function simpan_file($foto)

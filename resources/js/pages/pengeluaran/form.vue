@@ -143,9 +143,11 @@ import uangInput from '../../components/uang_input.vue';
                     tableStyles: {
                         borderTable: 'Buat Garis',
                         class3: 'Hilangkan Garis',                 
-                  },
+                  },                  
+                   fontSizeDefaultSelection: '16',
+                    fontSizeUnit : 'px',
                    fontFamily: this.$store.state.laporan_stores.config.fontFamily, 
-                   fontSize: ['8', '10', '12', '14', '18', '24', '30', '36'],
+                   fontSize: ['8', '10', '12', '14', '16', '18', '24', '30', '36'],
                  events: {                                    
                       'froalaEditor.initialized': function () {
                         console.info('initialized')

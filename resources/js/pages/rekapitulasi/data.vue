@@ -141,7 +141,7 @@
                                 </template>  
 
                                 <template #cell(uraian)="row">
-                                    <div v-html="row.item.uraian">
+                                    <div v-html="row.item.uraian" @click="row.toggleDetails">
                                       
                                     </div>
                                 </template>
@@ -158,8 +158,8 @@
 
 
                                   <template #cell(created_at)="row">
-                                    <div>
-                                        {{tgl_show(row.item.created_at)}}
+                                    <div @click="row.toggleDetails">
+                                        {{tgl_show(row.item.tgl)}}
                                     </div>
                                 </template>
 
@@ -195,7 +195,7 @@
                                 
                                 <hr>
                                 <strong><i class="fa fa-user mr-1"></i> Dibuat oleh</strong>
-                                <p class="text-muted"> {{row.item.user.name}} | {{row.item.user.role.name}} </p>
+                                <p class="text-muted"> {{row.item.user.name}} | {{row.item.user.jabatan.nama_jabatan}} </p>
                             <hr>
                                 <strong><i class="fa fa-calendar mr-1"></i> Tanggal dibuat</strong>
                                 <p class="text-muted">
@@ -226,9 +226,9 @@
                                 </template>  
 
                                 <template #cell(uraian)="row">
-                                    <div v-html="row.item.uraian" v-if="row.item.uraian">                                      
+                                    <div v-html="row.item.uraian" v-if="row.item.uraian" @click="row.toggleDetails">                                      
                                     </div>
-                                    <span v-else class="text-center">-</span>
+                                    <span v-else class="text-center" >-</span>
                                 </template>
                                 <template #cell(kategori)="row">
                                     <div @click="row.toggleDetails">
@@ -243,8 +243,8 @@
 
 
                                   <template #cell(created_at)="row">
-                                    <div>
-                                        {{tgl_show(row.item.created_at)}}
+                                    <div @click="row.toggleDetails">
+                                        {{tgl_show(row.item.tgl)}}
                                     </div>
                                 </template>
 
@@ -280,7 +280,7 @@
                                 
                                 <hr>
                                 <strong><i class="fa fa-user mr-1"></i> Dibuat oleh</strong>
-                                <p class="text-muted"> {{row.item.user.name}} | {{row.item.user.role.name}} </p>
+                                <p class="text-muted"> {{row.item.user.name}} | {{row.item.user.jabatan.nama_jabatan}} </p>
                             <hr>
                                 <strong><i class="fa fa-calendar mr-1"></i> Tanggal dibuat</strong>
                                 <p class="text-muted">

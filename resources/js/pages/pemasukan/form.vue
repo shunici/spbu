@@ -139,7 +139,9 @@ import uangInput from '../../components/uang_input.vue';
                       borderTable: 'Buat Garis',
                       class3: 'Hilangkan Garis',                   
                   },
-                    fontSizeUnit : 'pt',
+                   fontSizeDefaultSelection: '16',
+                    fontSizeUnit : 'px',
+                  fontSize: ['8', '10', '12', '14', '16', '18', '24', '30', '36'],
                    fontFamily: this.$store.state.laporan_stores.config.fontFamily, 
        
                  events: {                                    

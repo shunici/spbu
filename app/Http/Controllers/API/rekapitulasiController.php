@@ -9,6 +9,7 @@ use App\rekapitulasi;
 use App\pemasukan;
 use App\kategori;
 use App\User;
+use App\jabatan;
 use App\Http\Resources\UserCollection;
 use Spatie\Permission\Models\Role;
 use File;
@@ -22,29 +23,43 @@ class rekapitulasiController extends Controller
     {
  
         $kataKunci = request()->q;
-        $urutan = request()->urutan;             
+        $urutan = request()->urutan;            
         $tahun = request()->tahun;
         $bulan = request()->bulan;  
-        $rekapitulasi = rekapitulasi::with(['pemasukan.kategori', 'pengeluaran.kategori', 'pemasukan.User.Role', 'pengeluaran.User.Role'])
-            ->orderBy('created_at', $urutan);                  
-        if($bulan) {
+        
+        $rekapitulasi = Rekapitulasi::with([
+            'pemasukan' => function ($query) use ($urutan) {
+                $query->orderBy('tgl', $urutan) // urut berdasarkan tgl
+                      ->with(['kategori', 'user.role', 'user.jabatan']);
+            },
+            'pengeluaran' => function ($query) use ($urutan) {
+                $query->orderBy('tgl', $urutan)
+                      ->with(['kategori', 'user.role', 'user.jabatan']);
+            }
+        ])->orderBy('created_at', $urutan);
+        
+        if ($bulan) {
             $rekapitulasi->whereMonth('created_at', $bulan);
-        }       
-        if($tahun) {
+        }
+        
+        if ($tahun) {
             $rekapitulasi->whereYear('created_at', $tahun);
-        }                   
-    
-    // Filter berdasarkan uraian, total, dan kategori
+        }
+        
+        // Filter berdasarkan uraian, total, dan kategori di pemasukan
         $rekapitulasi = $rekapitulasi->whereHas('pemasukan', function ($query) use ($kataKunci) {
             $query->where('uraian', 'like', '%' . $kataKunci . '%')
                 ->orWhere('total', 'like', '%' . $kataKunci . '%')
                 ->orWhereHas('kategori', function ($query) use ($kataKunci) {
                     $query->where('nama', 'like', '%' . $kataKunci . '%');
                 });
-        });      
-    
+        });
+        
         $rekapitulasi = $rekapitulasi->paginate(request()->per_page);    
-        return new UserCollection($rekapitulasi); 
+        
+        return new UserCollection($rekapitulasi);
+        
+
     } 
 
     public function rekapitulasi_sekarang(Request $request)

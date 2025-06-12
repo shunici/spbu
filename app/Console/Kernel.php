@@ -4,7 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-
+use Carbon\Carbon;
 class Kernel extends ConsoleKernel
 {
     /**
@@ -27,11 +27,16 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         // $schedule->command('insert:rekapitulasi')->daily();
 
-        $schedule->command('insert:rekapitulasi')
-        ->fridays()
-        ->at('12:30'); // Jam setengah satu siang
+       
+       
 
-        // $schedule->command('jadwal:sholat')->dailyAt('04:30');
+        if (Carbon::now()->isLastOfMonth()) {
+            $schedule->command('insert:rekapitulasi')
+              ->dailyAt('04:30');
+          
+        }
+
+      
     }
 
     /**

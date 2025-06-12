@@ -9,6 +9,7 @@ use App\rekapitulasi;
 use App\pemasukan;
 use App\kategori;
 use App\User;
+use App\jabatan;
 use App\kas;
 use App\Http\Resources\UserCollection;
 use Spatie\Permission\Models\Role;
@@ -22,21 +23,26 @@ class pengeluaranController extends Controller
    
     public function index(Request $request)
     {
- 
         $kataKunci = request()->q;
         $urutan = request()->urutan;   
         $tahun = request()->tahun;
         $bulan = request()->bulan; 
-        $rekapitulasi = Rekapitulasi::with(['pengeluaran.kategori', 'pengeluaran.user.Role'])
-            ->orderBy('created_at', $urutan);
-            
-        if($bulan) {
+        
+        $rekapitulasi = Rekapitulasi::with([
+            'pengeluaran' => function ($query) use ($urutan) {
+                $query->orderBy('tgl', 'asc') // atau ganti dengan 'tgl' jika ada
+                      ->with(['kategori', 'user.Role', 'user.jabatan']);
+            }
+        ])->orderBy('created_at', $urutan);
+        
+        if ($bulan) {
             $rekapitulasi->whereMonth('created_at', $bulan);
         }       
-        if($tahun) {
+        
+        if ($tahun) {
             $rekapitulasi->whereYear('created_at', $tahun);
         }        
-        // Filter berdasarkan uraian, total, dan kategori
+        
         $rekapitulasi = $rekapitulasi->whereHas('pengeluaran', function ($query) use ($kataKunci) {
             $query->where('uraian', 'like', '%' . $kataKunci . '%')
                 ->orWhere('total', 'like', '%' . $kataKunci . '%')
@@ -44,11 +50,10 @@ class pengeluaranController extends Controller
                     $query->where('nama', 'like', '%' . $kataKunci . '%');
                 });
         });
-        // if( request()->mulai_tgl and request()->akhir_tgl ){
-        //     $rekapitulasi = $rekapitulasi->whereBetween('created_at', array( request()->mulai_tgl, request()->akhir_tgl) );
-        // }    
+        
         $rekapitulasi = $rekapitulasi->paginate(request()->per_page);    
-        return new UserCollection($rekapitulasi);  
+        
+        return new UserCollection($rekapitulasi);
     }
 
     private function simpan_file($foto)
