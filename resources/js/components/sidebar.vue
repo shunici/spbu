@@ -71,6 +71,13 @@
               <p>Pemasukan</p>
             </router-link>
           </li>     
+          
+          <li class="nav-item" @click="ganti_menu('realisasi')" v-if="$role(2) || $role(3) || $role(1) && isAuth" >
+            <router-link :to="{name : 'realisasi'}" class="nav-link" :class="{active : posisi == 'realisasi'}">
+              <i class="nav-icon fa fa-arrow-circle-up"></i>
+              <p>Realisasi</p>
+            </router-link>
+          </li>     
         
           <li class="nav-item"  @click="ganti_menu('user')" v-if="$role(2) || $role(3) || $role(1)">
             <router-link :to="{name : 'user'}" class="nav-link" :class="{active : posisi == 'user'}">

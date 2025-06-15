@@ -443,7 +443,7 @@ import formEdit from './edit.vue';
             },             
              generateYears() {
                 const currentYear = moment().year();                
-                const startYear = 2024; // Atur tahun awal sesuai kebutuhan
+                const startYear = 2025; // Atur tahun awal sesuai kebutuhan
                  for (let year = startYear; year <= currentYear + 1; year++) {
                         this.years.push(year);
                     }

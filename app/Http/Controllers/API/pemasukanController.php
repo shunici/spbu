@@ -64,8 +64,8 @@ class pemasukanController extends Controller
          if(!File::isDirectory($path)) {
              File::makeDirectory($path, 0777, true, true);
          }
-         $width = 600; // your max width
-         $height = 450; // your max height
+         $width = 800; // your max width
+         $height = 650; // your max height
 
          $img = Image::make($foto); //kurangi resolusi
          $img->height() > $img->width() ? $width=null : $height=null;

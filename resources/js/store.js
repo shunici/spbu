@@ -6,7 +6,7 @@ import user from './stores/user.js'
 import user_stores from './stores/user_stores.js'
 
 import kategori_stores from './stores/kategori_stores.js'
-import barang_stores from './stores/barang_stores.js'
+import realisasi_stores from './stores/realisasi_stores.js'
 import pengeluaran_stores from './stores/pengeluaran_stores.js'
 import pemasukan_stores from './stores/pemasukan_stores.js'
 import rekapitulasi_stores from './stores/rekapitulasi_stores.js'
@@ -24,9 +24,9 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     modules: {
-        auth,  user,  kategori_stores, barang_stores, pemasukan_stores, pengeluaran_stores,
+        auth,  user,  kategori_stores,  pemasukan_stores, pengeluaran_stores,
         rekapitulasi_stores, kas_stores, inventaris_stores, jabatan_stores,
-        gajih_stores, user_stores, laporan_stores, aplikasi_stores
+        gajih_stores, user_stores, laporan_stores, aplikasi_stores, realisasi_stores
     },
     state: {
         token: localStorage.getItem('token'),

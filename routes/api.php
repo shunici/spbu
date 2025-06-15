@@ -66,8 +66,12 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
 //kas
 Route::resource('/kas', 'API\kasController')->except(['update', 'index']);
     
-//barang
-Route::resource('/barang', 'API\barangController')->except(['index']);
+
+
+    //realisasi
+    Route::resource('/realisasi', 'API\realisasiController')->except(['update', 'store']);
+    Route::post('realisasi', 'API\realisasiController@store')->name('realisasi.store');
+    Route::post('realisasi/update/{id}', 'API\realisasiController@update')->name('realisasi.update');
 
     //inventaris 
     Route::resource('/inventaris', 'API\inventarisController')->except(['update', 'store', 'index']);
@@ -115,12 +119,6 @@ Route::get('/rekapitulasi-grafis-saldo', 'API\rekapitulasiController@rekapitulas
 Route::get('/rekapitulasi-kategori', 'API\rekapitulasiController@rekap_kategori')->name('rekapitulasi.kategori');
 
 
-//rekapZakat 
-Route::get('/rekapZakat', 'API\rekapZakatController@index')->name('rekapZakat.index');
-Route::get('/rekapZakat-sekarang', 'API\rekapZakatController@rekapZakat_sekarang')->name('rekapZakat.sekarang');
-Route::get('/rekapZakat-grafis', 'API\rekapZakatController@rekapZakat_grafis')->name('rekapZakat.grafis');
-Route::get('/rekapZakat-grafis-saldo', 'API\rekapZakatController@rekapZakat_grafis_saldo')->name('rekapZakat.grafissaldo');
-Route::get('/rekapZakat-grafis-barang', 'API\rekapZakatController@rekapZakat_barang')->name('rekapZakat.barang');
 
 //inventaris 
 Route::get('/inventaris', 'API\inventarisController@index')->name('inventaris.index');
@@ -132,7 +130,7 @@ Route::get('/kas', 'API\kasController@index')->name('kas.index');
 //kategori
 Route::get('/kategori', 'API\kategoriController@index')->name('kategori.index');
 
-Route::get('/barang', 'API\barangController@index')->name('barang.index');
+Route::get('/realisasi', 'API\realisasiController@index')->name('realisasi.index');
 
 //kas
 Route::get('/kas-sekarang', 'API\kasController@kas_sekarang')->name('kas.sekarang');

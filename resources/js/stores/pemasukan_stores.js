@@ -58,7 +58,9 @@ const mutations = {
         // state.pemasukan.kategori_id = '';   
         // state.pemasukan.user_id = '';  
         state.pemasukan.rekapitulasi_id = ''; 
-        state.pemasukan.foto = '';          
+        state.pemasukan.foto = ''; 
+        state.foto_db = "";
+        state.pemasukan.tgl = moment().format('YYYY-MM-DD HH:mm:ss');        
        },
 
     SET_PAGE(state, payload) {

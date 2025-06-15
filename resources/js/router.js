@@ -15,7 +15,7 @@ import store from './store.js'
 
 
 import kategori from './pages/kategori/index.vue'
-import barang from './pages/barang/index.vue'
+import realisasi from './pages/realisasi/index.vue'
 import inventaris from './pages/inventaris/index.vue'
 import pengeluaran from './pages/pengeluaran/index.vue'
 import pemasukan from './pages/pemasukan/index.vue'
@@ -198,10 +198,10 @@ const router = new Router({
             component: kategori
         },            
         {
-            path: '/barang',
-            name: 'barang',
-            meta: {title : 'Settingan Zakat' },
-            component: barang
+            path: '/realisasi',
+            name: 'realisasi',
+            meta: {title : 'Realisasi Kegiatan' },
+            component: realisasi
         },   
         {
             path: '',

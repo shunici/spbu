@@ -29,11 +29,11 @@ class rekapitulasiController extends Controller
         
         $rekapitulasi = Rekapitulasi::with([
             'pemasukan' => function ($query) use ($urutan) {
-                $query->orderBy('tgl', $urutan) // urut berdasarkan tgl
+                $query->orderBy('tgl', 'asc') // urut berdasarkan tgl
                       ->with(['kategori', 'user.role', 'user.jabatan']);
             },
             'pengeluaran' => function ($query) use ($urutan) {
-                $query->orderBy('tgl', $urutan)
+                $query->orderBy('tgl', 'asc')
                       ->with(['kategori', 'user.role', 'user.jabatan']);
             }
         ])->orderBy('created_at', $urutan);
