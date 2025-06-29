@@ -64,6 +64,7 @@ const mutations = {
     ASSIGN_FORM(state, payload) {
         state.user.name =payload.name;   
         state.user.email =payload.email;   
+        state.user.alamat =payload.alamat;   
         state.user.status =payload.status; 
         state.user.nomor_urut =payload.nomor_urut; 
         state.user.foto = '/storage/user/' + payload.foto;  
@@ -83,8 +84,13 @@ const mutations = {
 
 
     },
-    CLEAR_FORM(state) {
-        state.user.name = '';          
+    CLEAR_FORM(state) {    
+        state.user.name = '';
+        state.user.email = '';
+        state.user.password = '';
+        state.user.alamat = '';
+        state.user.hp = '';
+        state.user.foto = '';
     },
 
     SET_PAGE(state, payload) {

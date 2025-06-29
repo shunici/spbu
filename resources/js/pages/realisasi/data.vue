@@ -98,7 +98,7 @@
                                         <button type="button" class="btn btn-outline-success btn-xs"  @click="edit(row.item.id)" v-b-modal.edit-realisasi>
                                             <i class="fas fa-edit"></i>
                                             </button>                                
-                                        <button v-if="$role(1)" class="btn btn-outline-danger btn-xs" @click="hapus(row.item.id)" ><i class="fas fa-trash"></i> </button>
+                                        <button v-if="$role(2) || $role(1)" class="btn btn-outline-danger btn-xs" @click="hapus(row.item.id)" ><i class="fas fa-trash"></i> </button>
                                     </div>
                                 </template> 
 

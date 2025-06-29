@@ -74,7 +74,7 @@
           
           <li class="nav-item" @click="ganti_menu('realisasi')" v-if="$role(2) || $role(3) || $role(1) && isAuth" >
             <router-link :to="{name : 'realisasi'}" class="nav-link" :class="{active : posisi == 'realisasi'}">
-              <i class="nav-icon fa fa-arrow-circle-up"></i>
+              <i class="nav-icon fa fa-window-restore"></i>
               <p>Realisasi</p>
             </router-link>
           </li>     
