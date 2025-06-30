@@ -164,7 +164,7 @@
                                 </template>
 
                                 <template #cell(aksi)="row">
-                                    <div :key="row.index" v-if="aktif_aksi(rekap)" class="btn-group btn-group-xs">   
+                                    <div :key="row.index"  class="btn-group btn-group-xs">   
                                                                                                                            
                                         <button type="button" class="btn btn-outline-success btn-xs mr-1"  @click="edit(row.item.id)" v-b-modal.edit-pengeluaran>
                                             <i class="fas fa-edit"></i>

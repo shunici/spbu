@@ -1,5 +1,5 @@
 <template>  
- <b-modal id="edit-pengeluaran" ref="edit-pengeluaran" title="Edit"  :header-bg-variant="'info'">
+ <b-modal size="xl" id="edit-pengeluaran" ref="edit-pengeluaran" title="Edit"  :header-bg-variant="'info'">
   
   
 <form-pengeluaran></form-pengeluaran>
