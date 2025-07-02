@@ -584,7 +584,7 @@ moment.locale('id');
                             if (window.innerWidth <= 768) {
                                 // Mode Mobile
                                 this.fields.forEach((field) => {
-                                if (["no", "created_at", "uraian"].includes(field.key)) {
+                                if (["no",].includes(field.key)) {
                                     field.visible = false;
                                 }
                                 });

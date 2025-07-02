@@ -29,7 +29,7 @@ const state = () => ({
     fields: [           
         {key: 'no', label : 'No',  visible : true, class : 'text-center' },     
         {key: 'created_at', label : 'Tgl',  visible : true, },  
-         {key: 'uraian', label : 'Uraian', visible : false},
+         {key: 'uraian', label : 'Uraian', visible : true},
         {key: 'kategori', label : 'Kategori', visible : true, },
         {key: 'total', label : 'Total', visible : true, },                    
         {key: 'by', label : 'By', visible : false},         

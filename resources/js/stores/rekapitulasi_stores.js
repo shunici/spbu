@@ -38,8 +38,8 @@ const state = () => ({
     bulan : moment().format('MM'),   
     fields: [           
         {key: 'no', label : 'No',  class : 'text-center', visible : true, thStyle : {color : 'white !important', backgroundColor : 'black !important'}},    
-        {key: 'created_at', label : 'Tgl', visible : false, thStyle : {color : 'white !important', backgroundColor : 'black !important'}},    
-         {key: 'uraian', label : 'Uraian', visible : false, thStyle : {color : 'white !important', backgroundColor : 'black !important'} },
+        {key: 'created_at', label : 'Tgl', visible : true, thStyle : {color : 'white !important', backgroundColor : 'black !important'}},    
+         {key: 'uraian', label : 'Uraian', visible : true, thStyle : {color : 'white !important', backgroundColor : 'black !important'} },
         {key: 'kategori', label : 'Kategori', visible : true, thStyle : {color : 'white !important', backgroundColor : 'black !important'}},
         {key: 'total', label : 'Total', visible : true, thStyle : {color : 'white !important', backgroundColor : 'black !important'}},                  
         {key: 'by', label : 'By', visible : false, thStyle : {color : 'white !important', backgroundColor : 'black !important'}}, 

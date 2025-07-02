@@ -457,7 +457,7 @@ import formEdit from './edit.vue';
                             if (window.innerWidth <= 768) {
                                 // Mode Mobile
                                 this.fields.forEach((field) => {
-                                if (["no", "created_at", ].includes(field.key)) {
+                                if (["aksi", 'no' ].includes(field.key)) {
                                     field.visible = false;
                                 }
                                 });

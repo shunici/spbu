@@ -20,6 +20,9 @@ use Intervention\Image\ImageManagerStatic as Image;
 class pemasukanController extends Controller
 {
   
+ 
+  
+
     public function index(Request $request)
     {
  
