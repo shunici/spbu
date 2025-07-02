@@ -4,8 +4,11 @@ import moment from "moment"
 
 moment.locale('id');
 const state = () => ({
-    pemasukans: [],
-    total : 0,
+    pemasukans: {
+        data : [],
+        links : {},
+        meta : {}
+    },
     pemasukan : {
         uraian : '',
         total : '',
@@ -32,8 +35,7 @@ const state = () => ({
         {key: 'by', label : 'By', visible : false},         
         {key: 'aksi', label : 'Aksi', visible : false}, 
     ],
-    hidden_on : {aktif : false},    
-    kategori  : '',
+    hidden_on : {aktif : true},    
     tahun : moment().format('YYYY'), 
     bulan : moment().format('MM'),    
     pesan : {
@@ -44,8 +46,8 @@ const state = () => ({
 
 const mutations = {
     ASSIGN_DATA(state, payload) {
-        state.pemasukans = payload.data;  
-        state.total = payload.total;  
+        state.pemasukans = payload;  
+           // Gunakan cekRole di dalam mutation
    
     },
     CLEAR_FORM(state) {
@@ -97,18 +99,21 @@ const actions = {
         return new Promise((resolve, reject) => {
             $axios.get(`/pemasukan`, {                
                 params: {     
-                    kategori : state.kategori,                                                                                                                
+                    page : state.page, 
+                    per_page: state.perHalaman,
+                    q: search,                                                   
+                    urutan : state.urutan,                       
                     bulan : state.bulan,
                     tahun : state.tahun 
                 }
             })
             .then((response) => {
                 //memanggil get_rekapitulasi    dan kategori
-            // console.info('edit_pemasukan', response.data)
-                dispatch('rekapitulasi_stores/get_rekapitulasi', "", { root: true })
-                dispatch('kategori_stores/get_kategori', "", { root: true }) 
-                dispatch('kas_stores/get_kas', "", { root: true }) 
-                commit('ASSIGN_DATA', response.data)              
+            console.info('edit_pemasukan', response.data)
+                // dispatch('rekapitulasi_stores/get_rekapitulasi', "", { root: true })
+                // dispatch('kategori_stores/get_kategori', "", { root: true }) 
+                // dispatch('kas_stores/get_kas', "", { root: true }) 
+                // commit('ASSIGN_DATA', response.data)              
                 resolve(response.data)
             })
         })

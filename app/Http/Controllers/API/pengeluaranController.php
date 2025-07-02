@@ -21,7 +21,35 @@ use Intervention\Image\ImageManagerStatic as Image;
 class pengeluaranController extends Controller
 {
    
-    public function index(Request $request)
+    
+  public function index(Request $request)
+  {
+      $namaKategori = $request->input('kategori');
+    $bulan        = $request->input('bulan');
+    $tahun        = $request->input('tahun');
+    
+    // Query dasar
+    $query = pengeluaran::with(['kategori', 'user'])
+        ->when($namaKategori, function ($query) use ($namaKategori) {
+            $query->whereHas('kategori', function ($q) use ($namaKategori) {
+                $q->where('id', $namaKategori);
+            });
+        })
+        ->when($bulan, function ($query) use ($bulan) {
+            $query->whereMonth('tgl', $bulan);
+        })
+        ->when($tahun, function ($query) use ($tahun) {
+            $query->whereYear('tgl', $tahun);
+        });
+    
+    // Ambil total dan data secara terpisah
+    $total = $query->sum('total');
+    $data  = $query->orderBy('tgl', 'asc')->get();   
+
+    return response()->json(['status' => 'success' , "data" => $data, "total" => $total], 200);
+  }
+
+    public function indexx(Request $request)
     {
         $kataKunci = request()->q;
         $urutan = request()->urutan;   

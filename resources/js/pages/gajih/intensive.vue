@@ -29,7 +29,7 @@
 <br>
 
 
-<h3 class="text-center text-uppercase font-weight-bolder">Slip Gaji {{waktu(gajih.created_at)}}</h3>
+<h3 class="text-center text-uppercase font-weight-bolder">Slip Gaji {{waktu(gajih.tgl)}}</h3>
    <hr>                   
       <div class="row">
         <div class="col-6">

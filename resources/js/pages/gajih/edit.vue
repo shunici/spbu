@@ -9,7 +9,9 @@
           <input type="text" v-model="user_selected.label" disabled class="form-control">
         
         </div>
-    
+              
+    <label for="tanggal" class="text-uppercase mt-4">Untuk Bulan</label>                   
+<b-form-datepicker id="tanggal"   v-model="gajih.tgl"  :locale="'id'"  class="mb-2"></b-form-datepicker> 
  
  <p>Diterima</p>
  <div class="form-check form-check-inline">

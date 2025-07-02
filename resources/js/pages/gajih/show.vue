@@ -3,7 +3,7 @@
   
     <div :class="colClass" class="bg-white shadow" ref="tableToCapture" >
                   <img :src="aplikasi.kop" alt="" class="bg-white" style="width : 100%">
-                  <h2 class="text-center text-uppercase font-weight-bolder bg-white">Slip Gaji {{waktu()}}</h2>
+                  <h2 class="text-center text-uppercase font-weight-bolder bg-white">Slip Gaji  {{waktu_input(gajih.tgl)}}</h2>
                   <!-- //hanya tampil pas di destop -->
           <div class="d-none d-md-block">                         
               <table class="atasan table-borderless table-sm bg-white">
@@ -254,6 +254,9 @@ import uangInput from '../../components/uang_input.vue';
                 var tgl =  moment();
                  return moment(tgl).format('MMMM YYYY')          
               }, 
+              waktu_input (tgl) {              
+                 return moment(tgl).format('MMMM YYYY')   
+              },
                updateWindowWidth() {
                 this.windowWidth = window.innerWidth;
               },

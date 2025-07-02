@@ -1,7 +1,7 @@
 <template>
     <div class="">
         
-            <div class="d-flex justify-content-between m-3">
+            <div class="d-flex justify-content-between m-3 no-print">
                  <button @click="form_baru"  type="button" class="btn btn-outline-primary" v-b-modal.add-pengeluaran>
                     <i class="fa fa-plus-square mr-1" aria-hidden="true"></i>Buat Baru
                 </button>    
@@ -29,22 +29,9 @@
                 </button>            
             </div> <!-- dflex -->
             <hr>
-            <div class="card-header row" :class="{hidden_filter : hidden_on.aktif}">
+            <div class="card-header row no-print" :class="{hidden_filter : hidden_on.aktif}">
 
-                <div class="col-md">                                                   
-                          <div class="form-group">
-                            <label class="mr-2">Perhalaman</label>
-                            <select class="form-control"  v-model="perHalaman">   
-                                 <option value="1">1</option>                              
-                                <option value="5">5</option>
-                                <option value="10">10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>               
-                            </select>                           
-                        </div>        
-                </div>    
-
+           
             <div class="col-md">
                  <div class="form-group">
                         <label for="year">Pilih Tahun</label>
@@ -64,25 +51,20 @@
                     </select>
                 </div>
             </div>
-                <div class="col-md">                    
-                          <div class="form-group">
-                            <label class="mr-2">Urutan</label>
-                            <select class="form-control"  v-model="urutan" >
-                                    <option value="asc">Terlama</option>
-                                <option value="desc">Terbaru</option>                           
-                            </select>                          
-                        </div>
-                </div>
 
-            <div class="col-md">
-                <label class="mr-2">Pencarian</label>
-            <div class="input-group input-group">
-                    <input type="text" class="form-control"  v-model="searching"  v-on:keyup.enter="cari">
-                        <span class="input-group-append">
-                    <button type="button" class="btn btn-primary btn-flat" @click="cari">PROSES</button>
-                    </span>
+            <div class="col-md">                
+                    <div class="form-group">
+                    <label for="kategori" class="text-uppercase">kategori </label>
+                    <v-select v-model="selected_kategori" :options="kategori"></v-select>
+                    <p class="text-danger" v-if="errors.kategori_id"><i>Kategori harus diisi</i></p>
+                    </div>
             </div>
+            
+            <div class="col-md">                
+                <label for="kategori" class="text-uppercase" style="opacity : 0">i</label> <br>
+                <button class="btn-success btn-block btn-sm" @click.prevent="semua_kategori">Semua Kategori</button>
             </div>
+
 
             <div class="col-12 text-center mt-2">
                                                                 
@@ -105,33 +87,18 @@
             </div>              
             </div> <!-- card-header -->   
 
-         <span v-for="(rekap, index) in pengeluarans.data" :key="index" class="row d-flex justify-content-center ml-0 mr-0 mt-4">     
+         <span  class="row d-flex justify-content-center ml-0 mr-0 mt-4">     
 
 
     
     <div :class="col" class="bg-white shadow">
-                            <h4 class="mt-2 mb-0 text-center text-uppercase font-weight-bolder">Data Pengeluaran</h4> 
-                             <p class="text-center">    Periode  {{periode(rekap.tgl_mulai, rekap.tgl_akhir)}} </p>                              
+                            <h4 class="mt-2 mb-2 text-center text-uppercase font-weight-bolder">Data Pengeluaran <br> {{aplikasi.nama}}</h4>    
+                            <p class="text-center">  Periode  {{bulan_saja}} Tahun {{tahun}}</p>                    
                           
                               <hr>
-       <div class="d-flex justify-content-between">
-                <div class="invoice-col text-left">
-                     Kas Saldo Awal
-                   <address class="font-weight-bold">                                   
-                        Rp {{rekap.saldo_awal | currency}}
-                    </address>
-                </div>
-                <div class="invoice-col text-right">
-                     Kas Saldo Akhir
-                   <address class="font-weight-bold">                                     
-                          Rp {{rekap.saldo_akhir | currency}}
-                    </address>
-                </div>
-
-        </div>
         
                  
-               <b-table striped hover responsive  bordered :items="rekap.pengeluaran" small
+               <b-table striped hover responsive  bordered :items="pengeluarans" small
                           :fields="visibleFields" show-empty  stacked="xs" head-variant="dark" foot-clone >     
                              
                                 <template #cell(no)="row" >
@@ -222,50 +189,29 @@
                             <template v-slot:foot(uraian)><div class="d-none"></div></template> 
                             <template v-slot:foot(kategori)>Total</template> 
                             <template v-slot:foot(total)>
-                                Rp {{rekap.pengeluaran_rek | currency}}
+                                Rp {{total | currency}}
                            </template> 
                             <template v-slot:foot(by)><div class="d-none"></div></template> 
                             <template v-slot:foot(aksi)><div class="d-none"></div></template> 
 
 
-                              <template #table-caption> <i>Total Pemasukan : Rp {{rekap.pemasukan_rek | currency}} </i>.</template>
+                              
                                                     
             </b-table>
                         
                         
                      
      </div> <!-- col -->
-</span>
-
-
-        
-
-            <div class="card-footer row">
-                     <div class="col-md-auto mr-auto">                    
-                            <b-pagination
-                            v-model="page"
-                            :total-rows="pengeluarans.meta.total"
-                            :per-page="pengeluarans.meta.per_page"
-                            first-text="Awal"
-                            prev-text="Prev"
-                            next-text="Next"
-                            last-text="Akhir"
-                            aria-controls="pengeluarans"
-                            v-if="pengeluarans.data && pengeluarans.data.length > 0"
-                            ></b-pagination>        
-                    </div>   
-                     <div class="col-md-auto ml-auto">                    
-                          Menampikan   {{pengeluarans.data.length}}  dari {{pengeluarans.meta.total}} data
-                    </div>                                                                            
-            </div> <!-- foter -->
+</span>        
             <form-add></form-add>
-            <form-edit></form-edit>   
+            <form-edit></form-edit>  
+       
     </div>
 </template>
 
 
 <script>
-
+import vSelect from 'vue-select';
 import moment from "moment"
 moment.locale('id');  
   import { mapActions, mapState, mapMutations } from 'vuex'
@@ -285,10 +231,10 @@ import formEdit from './edit.vue';
             }
         },
         components : {
-            formAdd, formEdit
+            formAdd, formEdit, vSelect
         },
         created (){
-            if(!this.pengeluarans.data.length){                 
+            if(!this.pengeluarans.length){                 
                     this.get_pengeluaran();
             }       
         
@@ -305,39 +251,31 @@ import formEdit from './edit.vue';
             ...mapState(['errors']),
             ...mapState('pengeluaran_stores', {
                 pengeluarans: state => state.pengeluarans,
-                pengeluaran: state => state.pengeluaran,
+                total: state => state.total,
                  fields: state => state.fields,
                   hidden_on : state => state.hidden_on,
-            }),
+            }),                                
+        ...mapState('kategori_stores', {                 
+            kategori : state => state.kategori_pengeluaran,                  
+        }),       
+        ...mapState('aplikasi_stores', {   
+          aplikasi : state => state.aplikasi,
+        }),
             
        visibleFields() {
         return this.fields.filter(field => field.visible)
-      },
-            
-            page : {
-                get(){
-                        return this.$store.state.pengeluaran_stores.page
-                },
-                set(val){
-                    this.$store.commit('pengeluaran_stores/SET_PAGE', val)
-                }
-            },
-            perHalaman :{
+      },     
+                                                        
+            selected_kategori : {
                     get(){
-                        return this.$store.state.pengeluaran_stores.perHalaman
+                            return this.$store.state.pengeluaran_stores.selected_kategori
                 },
                 set(val){
-                    this.$store.state.pengeluaran_stores.perHalaman = val
+                    this.$store.state.pengeluaran_stores.kategori = val.value
+                    this.$store.state.pengeluaran_stores.selected_kategori = val
                 }
             },
-             urutan : {
-                get(){
-                        return this.$store.state.pengeluaran_stores.urutan
-                },
-                set(val){
-                    this.$store.commit('pengeluaran_stores/SET_URUTAN', val)
-                }
-            },            
+                                   
             tahun :{
                     get(){
                         return this.$store.state.pengeluaran_stores.tahun
@@ -353,20 +291,21 @@ import formEdit from './edit.vue';
                 set(val){
                     this.$store.state.pengeluaran_stores.bulan = val
                 }
-            },
+            },            
+             bulan_saja () {              
+                 var bln = this.bulan;
+                 if (bln == 0) {
+                     return 'semua bulan'
+                 } else {
+                      return moment(bln).format('MMMM') 
+                 }                
+            }
         },
                    
-           watch: {    
-               urutan(){
-                this.get_pengeluaran(this.searching)
-               },         
-                 page(){
-                this.get_pengeluaran(this.searching)
-                },
-             
-                perHalaman() {            
-                this.get_pengeluaran(this.searching)
-                },
+           watch: {  
+               selected_kategori(){
+                    this.get_pengeluaran(this.searching)
+               },  
                 bulan(){
                      this.get_pengeluaran(this.searching)
                 },
@@ -380,6 +319,12 @@ import formEdit from './edit.vue';
               ...mapActions('pengeluaran_stores', ['get_pengeluaran', 'edit_pengeluaran', 'remove_pengeluaran']),            
             hidden () {
                 this.hidden_on.aktif ? this.hidden_on.aktif = false : this.hidden_on.aktif = true
+            },             
+            semua_kategori(){
+                this.selected_kategori.value = "";
+                this.selected_kategori.label = "SEMUA KATEGORI"
+            this.$store.state.pengeluaran_stores.kategori = "";
+             this.get_pengeluaran(this.searching);
             },
             hapus(param){              
                 //ketika dihapus, data guru yang beralasi juga hapus

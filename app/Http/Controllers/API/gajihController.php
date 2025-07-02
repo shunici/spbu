@@ -20,10 +20,10 @@ class gajihController extends Controller
         $bulan = request()->bulan;
         $gajih = gajih::with(['user.jabatan'])->orderBy('created_at', 'DESC');   
         if($bulan) {
-            $gajih->whereMonth('created_at', $bulan);
+            $gajih->whereMonth('tgl', $bulan);
         }       
         if($tahun) {
-            $gajih->whereYear('created_at', $tahun);
+            $gajih->whereYear('tgl', $tahun);
         }   
         $data = $gajih->get();
         return new UserCollection($data);

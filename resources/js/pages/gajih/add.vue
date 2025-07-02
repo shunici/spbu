@@ -17,7 +17,10 @@
         </template>
       </v-select>
   <p class="text-danger" v-if="errors.user_id"><i>pemateri harus diisi</i></p>
-       
+          
+    <label for="tanggal" class="text-uppercase mt-4">Untuk Bulan</label>                   
+<b-form-datepicker id="tanggal"   v-model="gajih.tgl"  :locale="'id'"  class="mb-2"></b-form-datepicker> 
+
       <div class="form-group">
         <label for="penerimaan" class="text-uppercase">penerimaan</label>
            <uangInput v-model="gajih.penerimaan" placeholder="input gaji" style="font-size:1.5rem" class="font-weight-bold"></uangInput>

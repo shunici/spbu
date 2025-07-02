@@ -2,8 +2,11 @@ import $axios from '../api.js'
 import moment from "moment"
 moment.locale('id');
 const state = () => ({
-    pengeluarans: [],
-    total : 0,
+    pengeluarans: {
+        data : [],
+        links : {},
+        meta : {}
+    },
     pengeluaran : {
         uraian : '',
         total : '',
@@ -16,7 +19,9 @@ const state = () => ({
         tgl : moment().format('YYYY-MM-DD HH:mm:ss'),                      
     },  
     foto_db : '',
-    selected_kategori :  { value: '', label: 'PILIH KATEGORI' },  
+    selected_kategori :  { value: '', label: 'PILIH KATEGORI' },
+    page: 1,
+    perHalaman : 25,
     id: '',
     urutan : 'desc',  
     tahun : moment().format('YYYY'), 
@@ -30,8 +35,7 @@ const state = () => ({
         {key: 'by', label : 'By', visible : false},         
         {key: 'aksi', label : 'Aksi', visible : false}, 
     ],
-    hidden_on : {aktif : false},   
-    kategori  : '',  
+    hidden_on : {aktif : true},     
     pesan : {
         sukses : false
     },
@@ -40,8 +44,7 @@ const state = () => ({
 
 const mutations = {
     ASSIGN_DATA(state, payload) {
-        state.pengeluarans = payload.data;  
-        state.total = payload.total;  
+        state.pengeluarans = payload;  
     },
     CLEAR_FORM(state) {
         state.pengeluaran.uraian = '';
@@ -92,14 +95,16 @@ const actions = {
         return new Promise((resolve, reject) => {
             $axios.get(`/pengeluaran`, {                
                 params: {     
-                    kategori : state.kategori,                                                                                                                
+                    page : state.page, 
+                    per_page: state.perHalaman,
+                    q: search,                                                   
+                    urutan : state.urutan,                       
                     bulan : state.bulan,
-                    tahun : state.tahun 
+                    tanggal : state.tanggal 
 
                 }
             })
             .then((response) => {
-                console.info('edit_pengluaran', response.data)
                 dispatch('rekapitulasi_stores/get_rekapitulasi', "", { root: true })                
                 dispatch('kategori_stores/get_kategori', "", { root: true })     
                 dispatch('kas_stores/get_kas', "", { root: true })   

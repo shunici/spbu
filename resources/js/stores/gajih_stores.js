@@ -23,6 +23,7 @@ const state = () => ({
         sdh_terima : 0,
         keterangan : '',
         gajih_pokok : 0, //keperluan v-select aja
+        tgl : moment().format('YYYY-MM-DD HH:mm:ss'), 
     },  
     hidden_on : {aktif : true},  
     user_selected :  { value: '', label: 'PILIH USER', gajih_pokok : 0}, //vselect
@@ -114,6 +115,7 @@ const mutations = {
         state.gajih.keterangan = payload.keterangan;    
         state.gajih.gajih_pokok = payload.gajih_pokok;  
         state.gajih.created_at = payload.created_at; 
+        state.gajih.tgl = payload.tgl; 
         
     },
 }

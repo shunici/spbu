@@ -61,7 +61,7 @@
 
               <div  class="text-center kop" style="display : none">
                     <img :src="aplikasi.kop" alt="" style="width : 100%" class="text-center"> 
-                    <h3 class="text-uppercase">Data Gajih Takmir      {{bulan_tahun}} </h3>
+                    <h3 class="text-uppercase">Data Gajih       {{bulan_tahun}} </h3>
             </div>
                            <b-table  hover responsive  bordered :items="gajihs.data" small
                            :fields="visibleFields" show-empty  stacked="xs" head-variant="dark" foot-clone>
@@ -149,7 +149,7 @@
                                                     <th>{{row.item.pengurangan | currency}}</th>
                                                 </tr>
                                                 <tr class="bg-secondary"> 
-                                                    <th class="text-right">Total yang diterima Takmir Masjid Rp</th>
+                                                    <th class="text-right">Total yang diterima  Rp</th>
                                                     <th>{{row.item.penerimaan - row.item.pengurangan | currency}} </th>
                                                 </tr>
 
