@@ -18,7 +18,10 @@ import kategori from './pages/kategori/index.vue'
 import realisasi from './pages/realisasi/index.vue'
 import inventaris from './pages/inventaris/index.vue'
 import pengeluaran from './pages/pengeluaran/index.vue'
+import pengeluaran_tabel from './pages/pengeluaran/tabel.vue'
 import pemasukan from './pages/pemasukan/index.vue'
+import pemasukan_tabel from './pages/pemasukan/tabel.vue'
+
 import kas from './pages/kas/index.vue'
 import jabatan from './pages/jabatan/index.vue'
 import aplikasi from './pages/aplikasi/index.vue'
@@ -184,13 +187,25 @@ const router = new Router({
             name: 'pemasukan',
             meta: { requiresAuth: true,  title : 'Data Pemasukan' },
             component: pemasukan
-        },        
+        },       
+        {
+            path: '/pemasukan_tabel',
+            name: 'pemasukan_tabel',
+            meta: { requiresAuth: true,  title : 'Tabel Pemasukan' },
+            component: pemasukan_tabel
+        },       
         {
             path: '/pengeluaran',
             name: 'pengeluaran',
             meta: { requiresAuth: true,  title : 'Data Pengeluaran' },
             component: pengeluaran
-        },    
+        },     
+        {
+            path: '/pengeluaran_tabel',
+            name: 'pengeluaran_tabel',
+            meta: { requiresAuth: true,  title : 'Tabel pengeluaran' },
+            component: pengeluaran_tabel
+        },   
         {
             path: '/kategori',
             name: 'kategori',

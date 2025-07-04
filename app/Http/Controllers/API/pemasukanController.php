@@ -20,7 +20,69 @@ use Intervention\Image\ImageManagerStatic as Image;
 class pemasukanController extends Controller
 {
   
- 
+    public function pemasukantabel(Request $request)
+{
+    $bulan = $request->input('bulan');
+    $tahun = $request->input('tahun');
+
+    // Ambil semua data pemasukan sesuai filter
+    $pemasukanData = pemasukan::with(['kategori', 'user.role', 'user.jabatan'])
+        ->when($bulan, function ($query) use ($bulan) {
+            return $query->whereMonth('tgl', $bulan);
+        })
+        ->when($tahun, function ($query) use ($tahun) {
+            return $query->whereYear('tgl', $tahun);
+        })
+        ->orderBy('tgl', 'asc')
+        ->get();
+
+    // Hitung total per kategori
+    $kategoriTotals = [];
+    foreach ($pemasukanData as $item) {
+        $namaKategori = $item->kategori->nama ?? 'Lainnya';
+        if (!isset($kategoriTotals[$namaKategori])) {
+            $kategoriTotals[$namaKategori] = 0;
+        }
+        $kategoriTotals[$namaKategori] += $item->total;
+    }
+
+    // Ambil hanya kategori yang totalnya lebih dari 0
+    $kategoriFiltered = collect($kategoriTotals)
+        ->filter(function ($total) {
+            return $total > 0;
+        })
+        ->keys()
+        ->values();
+
+    // Bentuk data baris per baris sesuai kategori yang dipilih
+    $data = $pemasukanData->map(function ($item, $index) use ($kategoriFiltered) {
+        $row = [
+            'no' => $index + 1,
+            'uraian' => $item->uraian,
+        ];
+
+        foreach ($kategoriFiltered as $kategori) {
+            $row[$kategori] = ($item->kategori->nama === $kategori)
+                ? $item->total
+                : 0;
+        }
+
+        return $row;
+    });
+
+    // Hitung total keseluruhan semua pemasukan
+    $totalKeseluruhan = $pemasukanData->sum('total');
+
+    // Return dalam format JSON
+    return response()->json([
+        'status' => 'success',
+        'kategori_header' => $kategoriFiltered,
+        'data' => $data,
+        'total' => $totalKeseluruhan,
+    ]);
+}
+
+    
   public function index(Request $request)
   {
       $namaKategori = $request->input('kategori');
@@ -28,7 +90,7 @@ class pemasukanController extends Controller
     $tahun        = $request->input('tahun');
     
     // Query dasar
-    $query = pemasukan::with(['kategori', 'user'])
+    $query = pemasukan::with(['kategori', 'user.role', 'user.jabatan'])
         ->when($namaKategori, function ($query) use ($namaKategori) {
             $query->whereHas('kategori', function ($q) use ($namaKategori) {
                 $q->where('id', $namaKategori);

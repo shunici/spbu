@@ -25,13 +25,12 @@
               <!-- {{authenticated}}    -->
 <img :src="aplikasi.kop" alt="" class="" style="width : 100%">
 
-<hr>
-<br>
 
 
-<h3 class="text-center text-uppercase font-weight-bolder">Slip Gaji {{waktu(gajih.tgl)}}</h3>
+<h1 class="text-center text-uppercase font-weight-bolder mt-1 mb-0">Slip Gaji </h1>
+<p class="text-center mb-0">Periode {{waktu(gajih.tgl)}}</p>
    <hr>                   
-      <div class="row">
+      <div class="row mt-0">
         <div class="col-6">
           <strong>Nama :</strong><br>
           {{gajih.user.name}} <br>

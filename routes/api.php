@@ -57,10 +57,13 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::resource('/pengeluaran', 'API\pengeluaranController')->except(['update', 'store']);
     Route::post('pengeluaran', 'API\pengeluaranController@store')->name('pengeluaran.store');
     Route::post('pengeluaran/update/{id}', 'API\pengeluaranController@update')->name('pengeluaran.update');
+    Route::get('/pengeluaran-tabel', 'API\pengeluaranController@pengeluarantabel');
 //pemasukan
     Route::resource('/pemasukan', 'API\pemasukanController')->except(['update', 'store']);
     Route::post('pemasukan', 'API\pemasukanController@store')->name('pemasukan.store');
     Route::post('pemasukan/update/{id}', 'API\pemasukanController@update')->name('pemasukan.update');    
+    Route::get('/pemasukan-tabel', 'API\pemasukanController@pemasukantabel');
+
     //rekapitulasi
     Route::resource('/rekapitulasi', 'API\rekapitulasiController')->except(['update', 'store', 'index']);
 //kas

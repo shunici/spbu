@@ -17,6 +17,11 @@ const state = () => ({
         kas : 'kantor',   
         tgl : moment().format('YYYY-MM-DD HH:mm:ss')                 
     },  
+ //pemasukan tabel
+        data_pemasukan: [],
+        kategori_header: [],
+        kategori_total : [],      
+  //tutu pemasukan tabel
     foto_db : '',
     selected_kategori :  { value: '', label: 'PILIH KATEGORI' },
     page: 1,
@@ -45,8 +50,21 @@ const state = () => ({
 const mutations = {
     ASSIGN_DATA(state, payload) {
         state.pemasukans = payload.data;  
+        state.total = payload.total;                  
+    },
+    ASSIGN_DATA_TABEL(state, payload) {
+        state.data_pemasukan = payload.data;  
+        state.kategori_header= payload.kategori_header; 
         state.total = payload.total;  
-   
+        
+        const kategori_totals = {};
+             payload.data.forEach(row => {
+            payload.kategori_header.forEach(kategori => {
+            if (!kategori_totals[kategori]) kategori_totals[kategori] = 0;
+            kategori_totals[kategori] += row[kategori] || 0;
+            });
+        });
+        state.kategori_total = kategori_totals;
     },
     CLEAR_FORM(state) {
         state.pemasukan.uraian = '';
@@ -108,7 +126,22 @@ const actions = {
                 dispatch('rekapitulasi_stores/get_rekapitulasi', "", { root: true })
                 dispatch('kategori_stores/get_kategori', "", { root: true }) 
                 dispatch('kas_stores/get_kas', "", { root: true }) 
+                dispatch('get_pemasukan_tabel') 
                 commit('ASSIGN_DATA', response.data)              
+                resolve(response.data)
+            })
+        })
+    },
+    get_pemasukan_tabel({ commit, state, dispatch }) {   
+        return new Promise((resolve, reject) => {
+            $axios.get(`/pemasukan-tabel`, {                
+                params: {                                                                                                                                
+                    bulan : state.bulan,
+                    tahun : state.tahun 
+                }
+            })
+            .then((response) => {                         
+                commit('ASSIGN_DATA_TABEL', response.data)              
                 resolve(response.data)
             })
         })

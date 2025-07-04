@@ -1,9 +1,9 @@
 <template>  
- <div class="bg-white row d-flex justify-content-center ml-0 mr-0" style="background-color : white">
+ <div class="bg-dark row d-flex justify-content-center ml-0 mr-0" style="background-color : white">
   
-    <div :class="colClass" class="bg-white shadow" ref="tableToCapture" >
+    <div :class="colClass" class="bg-white " ref="tableToCapture" >
                   <img :src="aplikasi.kop" alt="" class="bg-white" style="width : 100%">
-                  <h2 class="text-center text-uppercase font-weight-bolder bg-white">Slip Gaji  {{waktu_input(gajih.tgl)}}</h2>
+                  <h3 class="text-center text-uppercase font-weight-bolder bg-white">Slip Gaji  {{waktu_input(gajih.tgl)}}</h3>
                   <!-- //hanya tampil pas di destop -->
           <div class="d-none d-md-block">                         
               <table class="atasan table-borderless table-sm bg-white">
@@ -47,13 +47,11 @@
                         </tr>  
 
                           <tr  v-for="(item, index) in padded_penerimaan" :key="index"> 
-                                  <td>
-                                      <input class="form-control" v-if="item.editing" v-model="item.uraian" />
-                                      <span v-else>{{ item.uraian}}</span>
+                                  <td>                                      
+                                   {{ item.uraian}}
                                   </td>                
-                                  <td>                   
-                                      <uangInput v-if="item.editing" v-model="item.total" ></uangInput>
-                                      <span v-else-if="item.total">{{ item.total | currency}}</span>
+                                  <td>                                                         
+                                      <span v-if="item.total">{{ item.total | currency}}</span>
                                       <span v-else>-</span>
                                   </td>
                         </tr>    
@@ -74,12 +72,10 @@
                       <tbody>        
                         <tr  v-for="(item, index) in padded_pengurangan" :key="index + 'peng'"> 
                                   <td>
-                                      <input class="form-control" v-if="item.editing" v-model="item.uraian" />
-                                      <span v-else>{{ item.uraian}}</span>
+                                      {{ item.uraian}}
                                   </td>                
-                                  <td>
-                                    <uangInput v-if="item.editing" v-model="item.total" ></uangInput>
-                                    <span v-else-if="item.total">{{ item.total | currency}}</span>
+                                  <td>                                    
+                                    <span v-if="item.total">{{ item.total | currency}}</span>
                                     <span v-else>-</span>
                                   </td>                  
                         </tr> 

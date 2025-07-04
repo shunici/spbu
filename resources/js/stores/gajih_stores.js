@@ -21,7 +21,42 @@ const state = () => ({
         pengurangan : 0,   
         ket_pengurangan :[],
         sdh_terima : 0,
-        keterangan : '',
+        keterangan : `        
+        <table style="width: 100%;">
+            <tbody>
+                <tr>
+                    <td style="width: 33.3333%; vertical-align: middle; text-align: center;">Penerima</td>
+                    <td style="width: 33.3333%;">
+                        <br>
+                    </td>
+                    <td style="width: 33.3333%;">
+                        <div style="text-align: center;">Mengetahui</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 33.3333%;">
+                        <br>
+                        <br>
+                    </td>
+                    <td style="width: 33.3333%;">
+                        <br>
+                    </td>
+                    <td style="width: 33.3333%; text-align: center;">
+                        <br>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 33.3333%; text-align: center;">-----------------------------</td>
+                    <td style="width: 33.3333%;">
+                        <br>
+                    </td>
+                    <td style="width: 33.3333%; text-align: center;">-----------------------------
+                        <br>
+                    </td>
+                </tr>
+            </tbody>
+        </table>        
+        `,
         gajih_pokok : 0, //keperluan v-select aja
         tgl : moment().format('YYYY-MM-DD HH:mm:ss'), 
     },  

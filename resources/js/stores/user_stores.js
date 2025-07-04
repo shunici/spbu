@@ -66,6 +66,7 @@ const mutations = {
         state.user.email =payload.email;   
         state.user.alamat =payload.alamat;   
         state.user.status =payload.status; 
+        state.user.hp =payload.hp; 
         state.user.nomor_urut =payload.nomor_urut; 
         state.user.foto = '/storage/user/' + payload.foto;  
          

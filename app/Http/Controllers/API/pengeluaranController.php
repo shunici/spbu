@@ -29,7 +29,7 @@ class pengeluaranController extends Controller
     $tahun        = $request->input('tahun');
     
     // Query dasar
-    $query = pengeluaran::with(['kategori', 'user'])
+    $query = pengeluaran::with(['kategori', 'user.role', 'user.jabatan'])
         ->when($namaKategori, function ($query) use ($namaKategori) {
             $query->whereHas('kategori', function ($q) use ($namaKategori) {
                 $q->where('id', $namaKategori);
@@ -49,40 +49,68 @@ class pengeluaranController extends Controller
     return response()->json(['status' => 'success' , "data" => $data, "total" => $total], 200);
   }
 
-    public function indexx(Request $request)
-    {
-        $kataKunci = request()->q;
-        $urutan = request()->urutan;   
-        $tahun = request()->tahun;
-        $bulan = request()->bulan; 
-        
-        $rekapitulasi = Rekapitulasi::with([
-            'pengeluaran' => function ($query) use ($urutan) {
-                $query->orderBy('tgl', 'asc') // atau ganti dengan 'tgl' jika ada
-                      ->with(['kategori', 'user.Role', 'user.jabatan']);
-            }
-        ])->orderBy('created_at', $urutan);
-        
-        if ($bulan) {
-            $rekapitulasi->whereMonth('created_at', $bulan);
-        }       
-        
-        if ($tahun) {
-            $rekapitulasi->whereYear('created_at', $tahun);
-        }        
-        
-        $rekapitulasi = $rekapitulasi->whereHas('pengeluaran', function ($query) use ($kataKunci) {
-            $query->where('uraian', 'like', '%' . $kataKunci . '%')
-                ->orWhere('total', 'like', '%' . $kataKunci . '%')
-                ->orWhereHas('kategori', function ($query) use ($kataKunci) {
-                    $query->where('nama', 'like', '%' . $kataKunci . '%');
-                });
-        });
-        
-        $rekapitulasi = $rekapitulasi->paginate(request()->per_page);    
-        
-        return new UserCollection($rekapitulasi);
-    }
+  public function pengeluarantabel(Request $request)
+  {
+      $bulan = $request->input('bulan');
+      $tahun = $request->input('tahun');
+  
+      // Ambil semua data pengeluaran sesuai filter
+      $pengeluaranData = pengeluaran::with(['kategori', 'user.role', 'user.jabatan'])
+          ->when($bulan, function ($query) use ($bulan) {
+              return $query->whereMonth('tgl', $bulan);
+          })
+          ->when($tahun, function ($query) use ($tahun) {
+              return $query->whereYear('tgl', $tahun);
+          })
+          ->orderBy('tgl', 'asc')
+          ->get();
+  
+      // Hitung total per kategori
+      $kategoriTotals = [];
+      foreach ($pengeluaranData as $item) {
+          $namaKategori = $item->kategori->nama ?? 'Lainnya';
+          if (!isset($kategoriTotals[$namaKategori])) {
+              $kategoriTotals[$namaKategori] = 0;
+          }
+          $kategoriTotals[$namaKategori] += $item->total;
+      }
+  
+      // Ambil hanya kategori yang totalnya lebih dari 0
+      $kategoriFiltered = collect($kategoriTotals)
+          ->filter(function ($total) {
+              return $total > 0;
+          })
+          ->keys()
+          ->values();
+  
+      // Bentuk data baris per baris sesuai kategori yang dipilih
+      $data = $pengeluaranData->map(function ($item, $index) use ($kategoriFiltered) {
+          $row = [
+              'no' => $index + 1,
+              'uraian' => $item->uraian,
+          ];
+  
+          foreach ($kategoriFiltered as $kategori) {
+              $row[$kategori] = ($item->kategori->nama === $kategori)
+                  ? $item->total
+                  : 0;
+          }
+  
+          return $row;
+      });
+  
+      // Hitung total keseluruhan semua pengeluaran
+      $totalKeseluruhan = $pengeluaranData->sum('total');
+  
+      // Return dalam format JSON
+      return response()->json([
+          'status' => 'success',
+          'kategori_header' => $kategoriFiltered,
+          'data' => $data,
+          'total' => $totalKeseluruhan,
+      ]);
+  }
+
 
     private function simpan_file($foto)
     {

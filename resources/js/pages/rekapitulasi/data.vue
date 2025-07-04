@@ -124,7 +124,7 @@
                   
         <div  :ref="'table' + index"  > <!-- salinojutsu -->
                         <span class="text-center">
-                        <h4 class=" text-uppercase"><b>rekapitulasi data</b> <br>
+                        <h4 class=" text-uppercase mb-0"><b>rekapitulasi data</b> <br>
                       {{aplikasi.nama}}
                         </h4>
                         <p>    Periode  {{periode(rekap.tgl_mulai, rekap.tgl_akhir)}}    </p>

@@ -6,6 +6,9 @@
                     <i class="fa fa-plus-square mr-1" aria-hidden="true"></i>Buat Baru
                 </button>    
                  
+                 <router-link :to="{name: 'pengeluaran_tabel'}" class="btn btn-outline-primary">
+                   <i class="nav-icon fa fa-clone mr-1"></i>  Lihat Tabel Pengeluaran
+                 </router-link>
                 <span>
                 <div class="form-check form-check-inline d-none d-lg-inline">
                     <label class="form-check-label">
@@ -92,7 +95,7 @@
 
     
     <div :class="col" class="bg-white shadow">
-                            <h4 class="mt-2 mb-2 text-center text-uppercase font-weight-bolder">Data Pengeluaran <br> {{aplikasi.nama}}</h4>    
+                            <h4 class="mt-2 mb-0 text-center text-uppercase font-weight-bolder">Data Pengeluaran <br> {{aplikasi.nama}}</h4>    
                             <p class="text-center">  Periode  {{bulan_saja}} Tahun {{tahun}}</p>                    
                           
                               <hr>

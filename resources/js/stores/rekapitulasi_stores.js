@@ -46,7 +46,7 @@ const state = () => ({
     
         // {key: 'Detail', label : 'detail', sortable: true, visible : true},         
     ],
-    hidden_on : {aktif : true},
+    hidden_on : {aktif : false},
 
 
     rek_grafis_pengeluaran : [],

@@ -5,7 +5,10 @@
                  <button  type="button" class="btn btn-outline-primary" v-b-modal.add-pemasukan>
                      <i class="fa fa-plus-square mr-1" aria-hidden="true"></i>Buat Baru
                 </button>    
-                 
+                 <router-link :to="{name: 'pemasukan_tabel'}" class="btn btn-outline-primary">
+                   <i class="nav-icon fa fa-clone mr-1"></i>  Lihat Tabel Pemasukan
+                 </router-link>
+
                 <span>
                 <div class="form-check form-check-inline d-none d-lg-inline">
                     <label class="form-check-label">
@@ -90,7 +93,7 @@
 <span  class="row d-flex justify-content-center ml-0 mr-0  mt-4">    
     
             <div :class="col" class="bg-white shadow">
-                <h4 class="mt-2 mb-2 text-center text-uppercase font-weight-bolder">Data pemasukan <br> {{aplikasi.nama}}</h4>                                                                                                 
+                <h4 class="mt-2 mb-0 text-center text-uppercase font-weight-bolder">Data pemasukan <br> {{aplikasi.nama}}</h4>                                                                                                 
 <p class="text-center">  Periode  {{bulan_saja}} Tahun {{tahun}}</p>
                       <hr>
                       

@@ -37,13 +37,13 @@ class gajihController extends Controller
 
         $gajih = gajih::with(['user.jabatan'])
         ->where('user_id', $id)
-        ->orderBy('created_at', 'DESC');
+        ->orderBy('tgl', 'DESC');
 
         if($bulan) {
-            $gajih->whereMonth('created_at', $bulan);
+            $gajih->whereMonth('tgl', $bulan);
         }       
         if($tahun) {
-            $gajih->whereYear('created_at', $tahun);
+            $gajih->whereYear('tgl', $tahun);
         }   
         $data = $gajih->get();   
        
