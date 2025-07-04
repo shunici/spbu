@@ -51,7 +51,7 @@ const mutations = {
     },
     
     ASSIGN_DATA_TABEL(state, payload) {
-        state.data_pengeluran = payload.data;  
+        state.data_pengeluaran = payload.data;  
         state.kategori_header= payload.kategori_header; 
         state.total = payload.total;  
         
