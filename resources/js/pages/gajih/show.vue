@@ -3,7 +3,7 @@
   
     <div :class="colClass" class="bg-white " ref="tableToCapture" >
                   <img :src="aplikasi.kop" alt="" class="bg-white" style="width : 100%">
-                  <h3 class="text-center text-uppercase font-weight-bolder bg-white">Slip Gaji  {{waktu_input(gajih.tgl)}}</h3>
+                  <h5 class="text-center text-uppercase font-weight-bolder bg-white mt-3">Slip Gaji  {{waktu_input(gajih.tgl)}}</h5>
                   <!-- //hanya tampil pas di destop -->
           <div class="d-none d-md-block">                         
               <table class="atasan table-borderless table-sm bg-white">
@@ -41,9 +41,12 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
+                        <tr >
                           <td scope="row">Gajih Pokok</td>         
-                          <td>{{gajih.gajih_pokok | currency}}</td>          
+                          <td>                                                                                
+                                      <span v-if="gajih.gajih_pokok">{{gajih.gajih_pokok | currency}} </span>
+                                      <span v-else>-</span>
+                            </td>          
                         </tr>  
 
                           <tr  v-for="(item, index) in padded_penerimaan" :key="index"> 
@@ -57,7 +60,7 @@
                         </tr>    
                         
                         <tr class="bg-light">           
-                          <th class="text-uppercase">total penerimaan</th>   
+                          <th class="text-uppercase">grand total</th>   
                           <th>{{gajih.penerimaan | currency}}</th>                
                         </tr>                
                       </tbody>                                    
@@ -80,7 +83,7 @@
                                   </td>                  
                         </tr> 
                           <tr class="bg-light">
-                            <th class="text-uppercase">Total pengurangan</th>          
+                            <th class="text-uppercase">Grand Total</th>          
                             <th>{{gajih.pengurangan | currency}}</th>        
                         </tr>               
                       </tbody>                                    
@@ -164,10 +167,10 @@
 
 
 
-            <div class="font-weight-bolder bg-light p-1 text-uppercase">Total yang diterima petugas : {{gajih.penerimaan - gajih.pengurangan | currency}} </div>
-            <p class="bg-light"><i>{{gajih.penerimaan - gajih.pengurangan | terbilang}} rupiah</i></p>
-            <div class="text-right mb-4 bg-light ">{{tgl_show(gajih.created_at)}} </div>
-            <div class="bg-light " style="width : 100%; background-color : white" v-html="gajih.keterangan"></div>
+            <div class="font-weight-bolder bg-white p-1 text-uppercase">Total yang diterima petugas : {{gajih.penerimaan - gajih.pengurangan | currency}} </div>
+            <p class="bg-white"><i>{{gajih.penerimaan - gajih.pengurangan | terbilang}} rupiah</i></p>
+            <div class="text-right mb-4 bg-white ">{{tgl_show(gajih.tgl)}} </div>
+            <div class="bg-white " style="width : 100%; background-color : white" v-html="gajih.keterangan"></div>
     </div> <!-- col -->
 
     <div class="col-12 mt-3 no-print">
@@ -215,7 +218,7 @@ import uangInput from '../../components/uang_input.vue';
                     return [...this.ket_penerimaan, ...emptyRows];
                 },                
                 padded_pengurangan () {
-                   const diff = (this.ket_penerimaan.length+1) - this.ket_pengurangan.length;
+                  const diff = (this.ket_penerimaan.length+1) - this.ket_pengurangan.length;                  
                     const emptyRows = Array.from({ length: diff > 0 ? diff : 0 }, () => ({ uraian: "-", total: "" }));
                     return [...this.ket_pengurangan, ...emptyRows];
                 },                 
@@ -243,8 +246,7 @@ import uangInput from '../../components/uang_input.vue';
                   } ); //this submit                                                   
               },
               tgl_show (data){  
-                var waktu = getMasehiHijriah(data);                
-                 return `${waktu.mHari}, ${waktu.mTanggal} ${waktu.mBulan} ${waktu.mTahun} M / ${waktu.hTanggal} ${waktu.hBulan} ${waktu.hTahun} H`;
+                return this.aplikasi.kab_kota + ', ' + moment(data).format('MMMM YYYY')      
               }, 
               waktu (){
                 var tgl =  moment();

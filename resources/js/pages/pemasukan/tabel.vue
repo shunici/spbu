@@ -36,17 +36,19 @@
                 <h4 class="mt-2 mb-0 text-center text-uppercase font-weight-bolder">Data pemasukan <br> {{aplikasi.nama}}</h4>                                                                                                 
 <p class="text-center">  Periode  {{bulan_saja}} Tahun {{tahun}}</p>
                       <hr>
-    <div class="table-responsive" style="max-height: 900px; overflow-y: auto;">      
+    <div class="table-responsive" style="max-height: 700px; overflow-y: auto;">      
   <table class="table table-bordered table-striped mb-0 table-sm">
           <thead class="bg-dark sticky-header">
             <tr>
-              <th rowspan="2">No</th>
-              <th rowspan="2">Keterangan</th>
+              <th></th>
+              <th></th>
               <th  :colspan="kategori_header.length" class="text-center">
                 Kategori
               </th>
             </tr>
             <tr>  
+              <th >No</th>
+              <th>Keterangan</th>
               <th v-for="(kategori, index) in kategori_header" :key="index + 'a'">
                 {{ kategori }}
               </th>
@@ -55,8 +57,15 @@
           <tbody>
             <tr v-for="(row, index) in data_pemasukan" :key="index+'n'">
               <td>{{ row.no }}</td>
-              <td class="uraian-cell"   v-b-popover.hover.html.right="row.uraian"  >
-                     <div v-html="truncateHtml(row.uraian, 40)"></div>                     
+              <td class="uraian-cell" :id="'popover-target-' + index" >
+                     <div v-html="truncateHtml(row.uraian, 40)"></div>     
+                         
+                        <b-popover :target="'popover-target-' + index" triggers="hover" placement="right" >   
+                          <div v-html="row.uraian"></div>
+                            <img class="img-fluid" v-b-modal.pemasukan-mdl :src="'/storage/pemasukan/'+row.foto" width="100" @click="modal_gambar(row.foto)">
+                            <p>Transaksi dibuat {{tgl_detil(row.tgl)}}</p>
+                                 
+                        </b-popover>                   
               </td>
               <td v-for="(kategori, idx) in kategori_header" :key="idx">
                 {{row[kategori] ? formatCurrency(row[kategori])  : '-' }}
@@ -77,7 +86,11 @@
               </td>
             </tr>  
           </tfoot>
-     </table>                                                  
+     </table>      
+     
+                                      <b-modal id="pemasukan-mdl" size="xl"   hide-footer>                                        
+                                     <img class="img-fluid" v-b-modal.pemasukan-mdl :src="'/storage/pemasukan/'+foto" alt="Photo">
+                                      </b-modal>                                              
          </div>
     </div>
 </template>
@@ -97,6 +110,7 @@ moment.locale('id');
               maximize : false,          
                 years: [],                  
                 months: moment.months(), // Get month names from moment.js
+                   foto : ''
             
                
             }
@@ -167,6 +181,9 @@ moment.locale('id');
            },
         methods : {
               ...mapActions('pemasukan_stores', ['get_pemasukan_tabel']),  
+                modal_gambar(sumber){
+                  return this.foto = sumber;
+              },
               stripHtml(html) {
                 const div = document.createElement("div");
                 div.innerHTML = html;
@@ -182,9 +199,9 @@ moment.locale('id');
                         const text = div.textContent || div.innerText || "";
 
                         // Potong teks (jaga agar HTML tidak rusak)
-                        const truncatedText = text.length > length ? text.substring(0, length) + "..." : text;
+                        // const truncatedText = text.length > length ? text.substring(0, length) + "..." : text;
 
-                        return truncatedText;
+                        return text;
                   }, 
             formatCurrency(value) {
                 var angka = value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
@@ -194,7 +211,7 @@ moment.locale('id');
                 return terbilang(data);
               },              
             tgl_detil (data){
-                  return moment(data).format('LLLL')           
+                  return moment(data).format('dddd, DD MMMM ')      
             },              
              generateYears() {
                 const currentYear = moment().year();                
@@ -217,6 +234,7 @@ moment.locale('id');
 .sticky-header th {
   position: sticky;
   top: 0;  
+   background-color: black;
   z-index: 2;
 }
 

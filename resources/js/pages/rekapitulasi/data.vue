@@ -7,6 +7,13 @@
                        <i class=" fa fa-file nr-1"></i>    Filter
                 </button>            
 
+                 <router-link :to="{name: 'pemasukan_tabel'}" class="btn btn-outline-primary">
+                   <i class="nav-icon fa fa-clone mr-1"></i> Tabel Pemasukan
+                 </router-link>
+                 
+                 <router-link :to="{name: 'pengeluaran_tabel'}" class="btn btn-outline-primary">
+                   <i class="nav-icon fa fa-clone mr-1"></i> Tabel Pengeluaran
+                 </router-link>
                 <span>
                 <div class="form-check form-check-inline d-none d-lg-inline">
                     <label class="form-check-label">

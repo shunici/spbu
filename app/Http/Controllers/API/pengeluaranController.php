@@ -88,6 +88,8 @@ class pengeluaranController extends Controller
           $row = [
               'no' => $index + 1,
               'uraian' => $item->uraian,
+              'foto' => $item->foto,
+              'tgl' => $item->tgl,           
           ];
   
           foreach ($kategoriFiltered as $kategori) {
@@ -120,8 +122,8 @@ class pengeluaranController extends Controller
          if(!File::isDirectory($path)) {
              File::makeDirectory($path, 0777, true, true);
          }
-         $width = 800; // your max width
-         $height = 650; // your max height
+         $width = 900; // your max width
+         $height = 750; // your max height
 
          $img = Image::make($foto); //kurangi resolusi
          $img->height() > $img->width() ? $width=null : $height=null;

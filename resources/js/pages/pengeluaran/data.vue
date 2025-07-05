@@ -384,7 +384,7 @@ import formEdit from './edit.vue';
                 return today.isBetween(startDate, endDate, null, '[]');
             },
             tgl_show (data){
-           return moment(data).format('DD MMMM')          
+           return moment(data).format('DD')          
             },               
             tgl_detil (data){
                   return moment(data).format('LLLL')           

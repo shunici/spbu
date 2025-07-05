@@ -380,7 +380,7 @@ import formEdit from './edit.vue';
             },
            
             tgl_show (data){
-            return moment(data).format('DD MMMM')          
+            return moment(data).format('DD')          
             },               
             tgl_detil (data){
                   return moment(data).format('LLLL')           

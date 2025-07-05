@@ -78,7 +78,7 @@ const state = () => ({
        {key: 'penerimaan', label : 'Penerimaan', visible : true},  
         {key: 'pengurangan', label : 'Pengurangan', visible : true}, 
          {key: 'total', label : 'Total', visible : true}, 
-         {key: '#', label : '#', visible : true},                                                       
+         {key: '#', label : '#', visible : false},                                                       
        {key: 'aksi', label : 'Aksi', visible : false}, //TAMBAHKAN CODE INI
    ], 
 })

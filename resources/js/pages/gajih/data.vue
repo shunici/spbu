@@ -61,7 +61,7 @@
 
               <div  class="text-center kop" style="display : none">
                     <img :src="aplikasi.kop" alt="" style="width : 100%" class="text-center"> 
-                    <h3 class="text-uppercase">Data Gajih       {{bulan_tahun}} </h3>
+                    <h4 class="text-uppercase mt-4"><b>Data Gaji      {{bulan_tahun}}</b> </h4>
             </div>
                            <b-table  hover responsive  bordered :items="gajihs.data" small
                            :fields="visibleFields" show-empty  stacked="xs" head-variant="dark" foot-clone>
@@ -191,16 +191,16 @@
 
                                 </b-table>
                                 <p class="float-right"> <i> {{totalJumlah | terbilang}} rupiah</i></p>
-                                   <p class="float-left"> <i> {{sisa_user_belum_didata(total_user.length, gajihs.data.length)}} </i></p>
+                                   <p class="float-left no-print d-none"> <i> {{sisa_user_belum_didata(total_user.length, gajihs.data.length)}} </i></p>
                                 
             </div> <!-- cardbody -->
-            <div class="card-footer">
+            <div class="card-footer no-print">
                  <span class="badge badge-primary">B</span>  belum diterima  &nbsp;&nbsp;&nbsp; 
                  <span class="badge badge-warning">S</span>  sudah diterima        
                  <p class="float-right no-print"><i>Input Pengeluaran ketika semua data lengkap</i> </p>       
                  
   
-         <button class="btn-block btn-success" @click="captureTable"> <i class="fa fa-whatsapp"></i>Salin Data</button>
+         <button class="btn-block btn-success no-print" @click="captureTable"> <i class="fa fa-whatsapp"></i>Salin Data</button>
                                  
                 
             </div>         
@@ -420,14 +420,14 @@ import formEdit from './edit.vue';
                             if (window.innerWidth <= 768) {
                                 // Mode Mobile
                                 this.fields.forEach((field) => {
-                                if (["jabatan", "penerimaan", "pengurangan", "#"].includes(field.key)) {
+                                if (["jabatan", "penerimaan", "pengurangan"].includes(field.key)) {
                                     field.visible = false;
                                 }
                                 });
                             } else {
                                 // Mode Desktop
                                 this.fields.forEach((field) => {
-                                if (["jabatan", "penerimaan", "pengurangan", "#"].includes(field.key)) {
+                                if (["jabatan", "penerimaan", "pengurangan"].includes(field.key)) {
                                     field.visible = true;
                                 }
                                 });
