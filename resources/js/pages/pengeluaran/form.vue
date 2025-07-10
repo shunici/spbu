@@ -106,17 +106,27 @@ import uangInput from '../../components/uang_input.vue';
               mulai_kamera : true,                                                                                              
               config: {
                   language: 'id',
-                  imageUpload: false,
-                  imageUploadRemoteUrls: true,  
-                  requestWithCORS: false,
-                   imageManagerLoadURL: '/api/load_images', // Endpoint untuk memuat daftar gambar
-                    imageManagerLoadMethod: "GET",
-                    imageManagerDeleteURL : false,
-                  imageManagerToggleTags: true,    
+                    imageUploadURL: '/api/upload_pengeluaran',
+                    imageUploadParam: 'file',
+                    imageUploadMethod: 'POST',
+                    imageAllowedTypes: ['jpeg', 'jpg', 'png'],
+                    imageMaxSize: 2 * 1024  * 1024 , // 2MB
+                    imageUploadParams: {
+                      _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    },
+                    language: 'id',
+                    imageUploadRemoteUrls: true,
+                    requestWithCORS: false,
+
+                    // Konfigurasi Image Manager
+                    imageManagerLoadURL: '/api/load_images_sponsor', // Endpoint untuk memuat daftar gambar
+                    imageManagerLoadMethod: 'GET',                
+                    imageManagerToggleTags: true,
                     imageManagerScrollOffset: 10,
-                    imageManagerPageSize: 10,   
-                      imageManagerPreloader: '/images/loader.gif',
-                      imageMove: true,     
+                    imageManagerPageSize: 10,
+                    imageManagerPreloader: '/images/loader.gif',
+                    imageMove: true,
+
                       toolbarButtons: [
                         'fontFamily', '|',  
                         'paragraphFormat', '|', 
@@ -133,7 +143,7 @@ import uangInput from '../../components/uang_input.vue';
                         'insertLink', '|',                     
                         'html'                  
                     ],    
-                    imageInsertButtons: ['imageBack', '|', 'imageManager'],                       
+                    imageInsertButtons: ['imageUpload'],                       
                       toolbarButtonsXS: [
                       'bold', '|',        
                       'textColor', 'backgroundColor', '|',   
@@ -148,10 +158,11 @@ import uangInput from '../../components/uang_input.vue';
                     fontSizeUnit : 'px',
                    fontFamily: this.$store.state.laporan_stores.config.fontFamily, 
                    fontSize: ['8', '10', '12', '14', '16', '18', '24', '30', '36'],
-                 events: {                                    
-                      'froalaEditor.initialized': function () {
-                        console.info('initialized')
-                      }
+                 events: {                                                                                
+
+                        'image.removeError': function (error) {                        
+                          alert('Terjadi error saat menghapus gambar: ' + error.message);
+                        },
                     }   
                 },     
               }
@@ -164,6 +175,7 @@ import uangInput from '../../components/uang_input.vue';
                 ...mapState('pengeluaran_stores', {                 
                     pengeluaran: state => state.pengeluaran,
                     pesan : state => state.pesan,
+                    url : state => state.url.hapus  
                 }),                
                 ...mapState('user', {
                     authenticated : state => state.authenticated
@@ -188,6 +200,7 @@ import uangInput from '../../components/uang_input.vue';
           methods : {
                 ...mapMutations('pengeluaran_stores', ['CLEAR_FORM', 'SHOW_FOTO', 'SIMPAN_FOTO']),
                 ...mapActions('pengeluaran_stores', ['update_pengeluaran']),  
+                  
                       handleProcessed(param) {                        
                           this.pengeluaran.total = param.total;
                           var labelDicari = param.kategori;

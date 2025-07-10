@@ -154,3 +154,8 @@ Route::post('/upload_image', 'API\aplikasiController@upload')->name('foto.upload
 Route::post('/delete_image','API\aplikasiController@deleteImage')->name('foto.hapus');   
 Route::get('/load_images', 'API\aplikasiController@loadImages')->name('foto.load'); 
 
+
+Route::post('/upload_pengeluaran', 'API\pengeluaranController@upload')->name('pengeluaran.upload');   
+Route::post('/delete_pengeluaran','API\pengeluaranController@deleteImage')->name('pengeluaran.hapus');   
+Route::get('/load_pengeluaran', 'API\pengeluaranController@loadImages')->name('pengeluaran.load'); 
+

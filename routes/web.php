@@ -13,5 +13,6 @@ Route::get('/{any}', 'HomeController@index')->name('index')->where("any", ".*");
 
 // Route::get('/jika', 'API\rekapitulasiController@rekap_kategori')->name('tes');
 
-// Route::get('/', 'API\pemasukanController@pemasukantabel')->name('tees');
+// Route::get('/', 'API\rekapitulasiController@index')->name('tees');
+
 

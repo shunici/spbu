@@ -40,6 +40,9 @@ const state = () => ({
     kategori  : '',  
     pesan : {
         sukses : false
+    },    
+    url : { //mengakali agar proses simpan tidak ter-triger
+        hapus : 'api/delete_pengeluaran'
     },
 
 })

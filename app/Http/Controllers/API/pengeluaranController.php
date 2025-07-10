@@ -321,6 +321,56 @@ class pengeluaranController extends Controller
         return response()->json(['status' => 'success'], 200);
     }
 
+
+    
+    public function upload(Request $request)
+    {
+      if ($request->hasFile('file')) {
+        $image = $request->file('file');
+        $imageName = time() . '_' . $image->getClientOriginalName();
+        $image->storeAs('public/pengeluaran_gambar', $imageName);
+
+        $imageUrl = asset('/storage/pengeluaran_gambar/' . $imageName);
+        return response()->json(['link' => $imageUrl]);
+    }
+
+        return response()->json(['error' => 'No file uploaded'], 400);
+    }
+
+    public function deleteImage(Request $request)
+    {
+  
+      $filePath = 'pengeluaran_gambar/'.$request->src; 
+      if (Storage::disk('public')->exists($filePath)) {
+        Storage::disk('public')->delete('/pengeluaran_gambar/'.$request->src);  
+        return response()->json(['message' => 'Gambar berhasil dihapus'], 200);
+      } else {
+        return response()->json(['message' => 'Gambar tidak ditemukan'], 404);
+      }       
+
+    }
+
+
+public function loadImages()
+{
+    $images = [];
+    $files = Storage::files('public/pengeluaran_gambar');
+
+    foreach ($files as $file) {
+        $fileName = basename($file);
+        $fileUrl = asset('storage/pengeluaran_gambar/' . $fileName);        
+        $images[] = [
+            'url' => $fileUrl,
+            'thumb' => $fileUrl,
+            'id' => $fileName,
+            "tag" => explode('.', $fileName)[0],
+            "name" => explode('.', $fileName)[0]
+        ];
+    }
+
+    return response()->json($images);
+}
+
     
 
 }

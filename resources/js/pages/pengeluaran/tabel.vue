@@ -62,7 +62,7 @@
                          
                         <b-popover :target="'popover-target-'  + index" triggers="hover" placement="right">   
                           <div v-html="row.uraian"></div>
-                            <img class="img-fluid" v-b-modal.pengeluaran-mdl :src="'/storage/pengeluaran/'+row.foto" alt="Photo" width="100" @click="modal_gambar(row.foto)">
+                            <img class="img-fluid" v-b-modal.pengeluaran-mdl :src="'/storage/pengeluaran/'+row.foto" alt="Photo" width="100" @click="modal_gambar(row.foto, row.uraian)">
                             <p>Transaksi dibuat {{tgl_detil(row.tgl)}}</p>
                                  
                         </b-popover>                   
@@ -88,8 +88,9 @@
           </tfoot>
      </table>       
      
-                                      <b-modal id="pengeluaran-mdl" size="xl"   hide-footer>                                        
-                                     <img class="img-fluid" v-b-modal.pengeluaran-mdl :src="'/storage/pengeluaran/'+foto" alt="Photo">
+                                      <b-modal id="pengeluaran-mdl" size="xl"   hide-footer>    
+                                        <div v-html="uraian"></div>                                    
+                                     <img class="img-fluid" v-b-modal.pengeluaran-mdl :src="'/storage/pengeluaran/'+foto" alt="">
                                       </b-modal>                                        
          </div>
     </div>
@@ -110,7 +111,8 @@ moment.locale('id');
               maximize : false,          
                 years: [],                  
                 months: moment.months(), // Get month names from moment.js
-                foto : ''
+                foto : '',
+                uraian : '',
             
                
             }
@@ -181,8 +183,9 @@ moment.locale('id');
            },
         methods : {
               ...mapActions('pengeluaran_stores', ['get_pengeluaran_tabel']),  
-              modal_gambar(sumber){
-                  return this.foto = sumber;
+              modal_gambar(poto, uraian){
+                   this.foto = poto;
+                   this.uraian = uraian                 
               },
               stripHtml(html) {
                 const div = document.createElement("div");

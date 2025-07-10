@@ -35,20 +35,7 @@
             </div> <!-- flexx -->
             <hr>
             <div class="card-header row" :class="{hidden_filter : hidden_on.aktif}">
-
-                <div class="col-md">                                                   
-                          <div class="form-group">
-                            <label class="mr-2">Perhalaman</label>
-                            <select class="form-control"  v-model="perHalaman">   
-                                 <option value="1">1</option>                              
-                                <option value="5">5</option>
-                                <option value="10">10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>               
-                            </select>                           
-                        </div>        
-                </div>    
+  
             <div class="col-md">
                  <div class="form-group">
                         <label for="year">Pilih Tahun</label>
@@ -69,25 +56,7 @@
                 </div>
             </div>
          
-                <div class="col-md">                    
-                          <div class="form-group">
-                            <label class="mr-2">Urutan</label>
-                            <select class="form-control"  v-model="urutan" >
-                                   <option value="asc">Terlama</option>
-                                <option value="desc">Terbaru</option>                        
-                            </select>                          
-                        </div>
-                </div>
 
-            <div class="col-md">
-                <label class="mr-2">Pencarian</label>
-            <div class="input-group input-group">
-                    <input type="text" class="form-control"  v-model="searching"  v-on:keyup.enter="cari">
-                        <span class="input-group-append">
-                    <button type="button" class="btn btn-primary btn-flat" @click="cari">PROSES</button>
-                    </span>
-            </div>
-            </div>
 
             <div class="col-12 text-center mt-2">
                                                                 
