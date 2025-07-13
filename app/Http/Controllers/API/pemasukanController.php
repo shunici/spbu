@@ -17,11 +17,16 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\ImageManagerStatic as Image;
+use PDF;
+use Carbon\Carbon;
+use App\aplikasi;
+
 class pemasukanController extends Controller
 {
   
     public function pemasukantabel(Request $request)
 {
+
     $bulan = $request->input('bulan');
     $tahun = $request->input('tahun');
 
@@ -60,6 +65,9 @@ class pemasukanController extends Controller
             'no' => $index + 1,
             'uraian' => $item->uraian,
             'foto' => $item->foto,
+            'foto1' => $item->foto1,
+            'foto2' => $item->foto2,
+            'foto3' => $item->foto3,
             'tgl' => $item->tgl,
         ];
 
@@ -177,11 +185,24 @@ class pemasukanController extends Controller
     try {      
         $rekapitulasi = rekapitulasi::latest()->first();  
         $foto = "";
-
+        $foto1 = "";
+        $foto2 = "";
+        $foto3 = "";
         if($request->hasFile('foto')){             
             $foto =  $this->simpan_file( $request->file('foto') ); 
          }  
-
+    
+         if($request->hasFile('foto1')){             
+            $foto1 =  $this->simpan_file( $request->file('foto1') ); 
+         }  
+         
+         if($request->hasFile('foto2')){             
+            $foto2 =  $this->simpan_file( $request->file('foto2') ); 
+         }  
+                  
+        if($request->hasFile('foto3')){             
+            $foto3 =  $this->simpan_file( $request->file('foto3') ); 
+         }  
          //proses input kass kantor atau kas bank
          $input_kas = $request->kas;
         $kas = kas::latest()->first();
@@ -199,6 +220,9 @@ class pemasukanController extends Controller
         $input = $request->all();   
         $input['rekapitulasi_id'] = $rekapitulasi->id;
         $input['foto'] = $foto ? $foto : 'default.png';
+        $input['foto1'] = $foto1 ? $foto1 : 'default.png';
+        $input['foto2'] = $foto2 ? $foto2 : 'default.png';
+        $input['foto3'] = $foto3 ? $foto3 : 'default.png';
         $input['user_id'] = Auth::user()->id;
          pemasukan::create($input);  
 
@@ -245,14 +269,37 @@ class pemasukanController extends Controller
     try {       
               $data = pemasukan::find($id); 
               $foto = $data->foto;   
+              $foto1 = $data->foto1; 
+              $foto2 = $data->foto2; 
+              $foto3 = $data->foto3;  
                         
             if($request->hasFile('foto')){  
                 !empty($foto) ? Storage::disk('public')->delete('/pemasukan/'. $data->foto) : null;
                 $foto =  $this->simpan_file( $request->file('foto') ); 
-            }                                                       
+            }                  
+            
+                  
+            if($request->hasFile('foto1')){  
+                !empty($foto1) ? Storage::disk('public')->delete('/pemasukan/'. $data->foto1) : null;
+                $foto1 =  $this->simpan_file( $request->file('foto1') ); 
+            }  
+                        
+            if($request->hasFile('foto2')){  
+                !empty($foto2) ? Storage::disk('public')->delete('/pemasukan/'. $data->foto2) : null;
+                $foto2 =  $this->simpan_file( $request->file('foto2') ); 
+            }  
+
+                        
+            if($request->hasFile('foto3')){  
+                !empty($foto3) ? Storage::disk('public')->delete('/pemasukan/'. $data->foto3) : null;
+                $foto3 =  $this->simpan_file( $request->file('foto3') ); 
+            } 
+
               $input = $request->all(); 
               $input['foto'] = $foto;              
-
+              $input['foto1'] = $foto1; 
+              $input['foto2'] = $foto2; 
+              $input['foto3'] = $foto3;  
                 //proses input kass kantor atau kas bank
                 $input_kas = $request->kas;
                 $kas = kas::latest()->first();
@@ -351,6 +398,121 @@ class pemasukanController extends Controller
 
         return response()->json(['status' => 'success'], 200);
     }
+
+
+
+
+    
+    public function cetakPDF(Request $request)
+    {
+
+        $aplikasi = aplikasi::latest()->first();
+        Carbon::setLocale('id');
+    $bulan = $request->input('bulan');
+    $tahun = $request->input('tahun');
+
+    $pemasukanData = pemasukan::with(['kategori', 'user.role', 'user.jabatan'])
+        ->when($bulan, function ($query) use ($bulan) {
+            return $query->whereMonth('tgl', $bulan);
+        })
+        ->when($tahun, function ($query) use ($tahun) {
+            return $query->whereYear('tgl', $tahun);
+        })
+        ->orderBy('tgl', 'asc')
+        ->get();
+
+    $kategoriTotals = [];
+    foreach ($pemasukanData as $item) {
+        $kategori = $item->kategori->nama ?? 'Lainnya';
+        if (!isset($kategoriTotals[$kategori])) {
+            $kategoriTotals[$kategori] = 0;
+        }
+        $kategoriTotals[$kategori] += $item->total;
+    }
+
+    $kategoriFiltered = collect($kategoriTotals)->filter(function ($total) {
+        return $total > 0;
+    })->keys()->values();
+
+    $data = $pemasukanData->map(function ($item, $index) use ($kategoriFiltered) {
+        $uraian = preg_replace('/<p[^>]*>.*?Powered by.*?<\/p>/is', '', $item->uraian); //hilangkan froala
+        $uraian = preg_replace('/\s*style="[^"]*"/i', '', $uraian); // hilangkan syle
+
+        $row = [
+            'no' => $index + 1,
+            'uraian' => $uraian,
+            'tgl' =>  Carbon::parse($item->tgl)->format('j-n'),
+        ];
+
+        foreach ($kategoriFiltered as $kategori) {
+            $row[$kategori] = ($item->kategori->nama === $kategori) ? $item->total : 0;
+        }
+
+        return $row;
+    });
+
+    $totalKeseluruhan = $pemasukanData->sum('total');
+
+    // Total per kategori disiapkan kembali untuk footer
+    $kategoriTotalFinal = [];
+    foreach ($kategoriFiltered as $kategori) {
+        $kategoriTotalFinal[$kategori] = isset($kategoriTotals[$kategori]) ? $kategoriTotals[$kategori] : 0;
+    }
+
+    $pdf = PDF::loadView('pdf.laporan_pemasukan', [
+        'kategori_header' => $kategoriFiltered,
+        'data' => $data,
+        'kategori_total' => $kategoriTotalFinal,
+        'total' => $totalKeseluruhan,
+        'total_terbilang' => $this->terbilang($totalKeseluruhan) . ' Rupiah',
+        'bulan_saja' => Carbon::create()->month($bulan)->translatedFormat('F'),
+        'tahun' => $tahun,
+        'aplikasi_nama' => $aplikasi->nama,
+        'logo' => public_path('storage/aplikasi/' . $aplikasi->logo),
+        "title" => 'Laporan Pemasukan',
+        "url" => 'https://spbu.site/',
+        "description" => 'Laporan Pemasukan '. Carbon::create()->month($bulan)->translatedFormat('F').' '.$tahun,
+
+        
+    ]);
+    $pdf->setPaper('A4', 'landscape');
+    return $pdf->stream('laporan_pemasukan.pdf');
+    }
+
+
+
+
+
+
+
+private function terbilang($angka)
+{
+    $angka = abs($angka);
+    $bilangan = [
+        "", "satu", "dua", "tiga", "empat", "lima",
+        "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas"
+    ];
+
+    if ($angka < 12) {
+        return $bilangan[$angka];
+    } elseif ($angka < 20) {
+        return $bilangan[$angka - 10] . ' belas';
+    } elseif ($angka < 100) {
+        return $this->terbilang(floor($angka / 10)) . ' puluh ' . $this->terbilang($angka % 10);
+    } elseif ($angka < 200) {
+        return 'seratus ' . $this->terbilang($angka - 100);
+    } elseif ($angka < 1000) {
+        return $this->terbilang(floor($angka / 100)) . ' ratus ' . $this->terbilang($angka % 100);
+    } elseif ($angka < 2000) {
+        return 'seribu ' . $this->terbilang($angka - 1000);
+    } elseif ($angka < 1000000) {
+        return $this->terbilang(floor($angka / 1000)) . ' ribu ' . $this->terbilang($angka % 1000);
+    } elseif ($angka < 1000000000) {
+        return $this->terbilang(floor($angka / 1000000)) . ' juta ' . $this->terbilang($angka % 1000000);
+    }
+
+    return 'angka terlalu besar';
+}
 
     
 }

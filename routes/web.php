@@ -16,3 +16,5 @@ Route::get('/{any}', 'HomeController@index')->name('index')->where("any", ".*");
 // Route::get('/', 'API\rekapitulasiController@index')->name('tees');
 
 
+
+

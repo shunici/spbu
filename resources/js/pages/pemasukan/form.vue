@@ -53,27 +53,133 @@
     </tr>
   </tbody>
 </table>
-<div class="text-center">
+<div class="row">
 
+
+<div class="col-md-6">
+<div class="text-center">
       <!-- Menampilkan feed kamera -->
       <video v-if="!pemasukan.foto"  ref="video" autoplay playsinline></video>
       <!-- Canvas untuk menangkap gambar -->
       <canvas ref="canvas" style="display: none;"></canvas>
       <!-- hasil tangkapan -->
       <div class="form-group">
-          <img v-if="pemasukan.foto" class="foto_upload mt-3" :src="pemasukan.foto" alt="pemasukan">
+          <img v-if="pemasukan.foto" class="foto_upload mt-3" :src="pemasukan.foto" alt="">
       </div>
-</div>
-<button @click="mulai_kamera ? startCamera() : captureImage()"  type="button" class="btn btn-primary btn-block text-uppercase"><i class="fa fa-camera"></i> {{mulai_kamera ? 'Mulai Kamera' : 'Tangkap Gambar'}} </button>
-        <div class="form-group mt-4">
-            <label for="foto_utama" class="text-uppercase">ATAU upload file</label>              
-            <div class="input-group">
-                  <div class="custom-file">
-                      <input type="file" class="custom-file-input" id="exampleInputFile" @change="uploadImage($event)">
-                      <label class="custom-file-label" for="exampleInputFile">Pilih Foto</label>
-                  </div>
-            </div>
-        </div>    
+</div>        
+<div class="form-group">                  
+                    <div class="input-group">
+                      <div class="custom-file" @change="uploadImage($event, 'foto')">
+                        <input type="file" class="custom-file-input" id="exampleInputFile">
+                        <label class="custom-file-label" for="exampleInputFile">Upload File</label>
+                      </div>
+                      <div class="input-group-append">
+                        <span class="btn btn-default" @click="mulai_kamera.foto ? startCamera('foto', 'video') : captureImage('foto', 'video', 'canvas')" > <i class="fa fa-camera mr-1"></i>{{mulai_kamera.foto ? 'Mulai Kamera' : 'Tangkap Gambar'}}</span>
+                      </div>
+                      <div class="input-group-append" v-if="pemasukan.jumlah_gambar === 0">
+                        <span class="btn btn-success" @click="tambah_foto()"> <i class="fa fa-plus-square mr-1" aria-hidden="true"> </i> </span>
+                      </div>
+                    </div>
+          </div>
+</div> <!-- col -->
+
+
+<div class="col-md-6" v-if="pemasukan.jumlah_gambar > 0" >
+<div class="text-center">
+      <!-- Menampilkan feed kamera -->
+      <video v-if="!pemasukan.foto1"  ref="video1" autoplay playsinline></video>
+      <!-- Canvas untuk menangkap gambar -->
+      <canvas ref="canvas1" style="display: none;"></canvas>
+      <!-- hasil tangkapan -->
+      <div class="form-group">
+          <img v-if="pemasukan.foto1" class="foto_upload mt-3" :src="pemasukan.foto1" alt="">
+      </div>
+</div>        
+<div class="form-group">                  
+                    <div class="input-group">
+                      <div class="custom-file" @change="uploadImage($event, 'foto1')">
+                        <input type="file" class="custom-file-input" id="exampleInputFile">
+                        <label class="custom-file-label" for="exampleInputFile">Upload File</label>
+                      </div>
+                      <div class="input-group-append">
+                        <span class="btn btn-default" @click="mulai_kamera.foto1 ? startCamera('foto1', 'video1') : captureImage('foto1', 'video1', 'canvas1')" > <i class="fa fa-camera mr-1"></i>{{mulai_kamera.foto1 ? 'Mulai Kamera' : 'Tangkap Gambar'}}</span>
+                      </div>
+                      <div class="input-group-append" v-if="pemasukan.jumlah_gambar === 1">
+                        <span class="btn btn-success" @click="tambah_foto()"> <i class="fa fa-plus-square mr-1" aria-hidden="true"> </i> </span>
+                      </div>
+                      <div class="input-group-append" v-if="pemasukan.jumlah_gambar === 1">
+                        <span class="btn btn-danger" @click="hapus_foto()"><i class="fas fa-trash mr-1"></i></span>
+                      </div>
+
+                    </div>
+          </div>
+</div> <!-- col -->
+
+
+
+<div class="col-md-6" v-if="pemasukan.jumlah_gambar > 1" >
+<div class="text-center">
+      <!-- Menampilkan feed kamera -->
+      <video v-if="!pemasukan.foto2"  ref="video2" autoplay playsinline></video>
+      <!-- Canvas untuk menangkap gambar -->
+      <canvas ref="canvas2" style="display: none;"></canvas>
+      <!-- hasil tangkapan -->
+      <div class="form-group">
+          <img v-if="pemasukan.foto2" class="foto_upload mt-3" :src="pemasukan.foto2" alt="">
+      </div>
+</div>        
+<div class="form-group">                  
+                    <div class="input-group">
+                      <div class="custom-file" @change="uploadImage($event, 'foto2')">
+                        <input type="file" class="custom-file-input" id="exampleInputFile">
+                        <label class="custom-file-label" for="exampleInputFile">Upload File</label>
+                      </div>
+                      <div class="input-group-append">
+                        <span class="btn btn-default" @click="mulai_kamera.foto2 ? startCamera('foto2', 'video2') : captureImage('foto2', 'video2', 'canvas2')" > <i class="fa fa-camera mr-1"></i>{{mulai_kamera.foto2 ? 'Mulai Kamera' : 'Tangkap Gambar'}}</span>
+                      </div>
+                      <div class="input-group-append" v-if="pemasukan.jumlah_gambar === 2">
+                        <span class="btn btn-success" @click="tambah_foto()"> <i class="fa fa-plus-square mr-1" aria-hidden="true"> </i> </span>
+                      </div>
+                      <div class="input-group-append" v-if="pemasukan.jumlah_gambar === 2">
+                        <span class="btn btn-danger" @click="hapus_foto()"><i class="fas fa-trash mr-1"></i></span>
+                      </div>
+
+                    </div>
+          </div>
+</div> <!-- col -->
+
+
+
+<div class="col-md-6" v-if="pemasukan.jumlah_gambar > 2" >
+<div class="text-center">
+      <!-- Menampilkan feed kamera -->
+      <video v-if="!pemasukan.foto3"  ref="video3" autoplay playsinline></video>
+      <!-- Canvas untuk menangkap gambar -->
+      <canvas ref="canvas3" style="display: none;"></canvas>
+      <!-- hasil tangkapan -->
+      <div class="form-group">
+          <img v-if="pemasukan.foto3" class="foto_upload mt-3" :src="pemasukan.foto3" alt="">
+      </div>
+</div>        
+<div class="form-group">                  
+                    <div class="input-group">
+                      <div class="custom-file" @change="uploadImage($event, 'foto3')">
+                        <input type="file" class="custom-file-input" id="exampleInputFile">
+                        <label class="custom-file-label" for="exampleInputFile">Upload File</label>
+                      </div>
+                      <div class="input-group-append" >
+                        <span class="btn btn-default" @click="mulai_kamera.foto3 ? startCamera('foto3', 'video3') : captureImage('foto3', 'video3', 'canvas3')" > <i class="fa fa-camera mr-1"></i>{{mulai_kamera.foto3 ? 'Mulai Kamera' : 'Tangkap Gambar'}}</span>
+                      </div>
+                      <div class="input-group-append" v-if="pemasukan.jumlah_gambar === 3">
+                        <span class="btn btn-danger" @click="hapus_foto()"><i class="fas fa-trash mr-1"></i></span>
+                      </div>
+
+                    </div>
+          </div>
+</div> <!-- col -->
+
+</div> <!-- row -->
+
     <label for="tanggal" class="text-uppercase">tanggal transaksi</label>                   
 <b-form-datepicker id="tanggal"   v-model="pemasukan.tgl"  :locale="'id'"  class="mb-2"></b-form-datepicker>          
  <div v-if="Object.keys(errors).length">
@@ -98,7 +204,12 @@ import uangInput from '../../components/uang_input.vue';
           name : 'formEdit',
           data () {
               return {   
-              mulai_kamera : true,                                                                                                            
+             mulai_kamera : {
+                foto : true,
+                foto1 : true,
+                foto2 : true,
+                foto3 : true,
+              } ,                                                                                                           
               config: {
                   language: 'id',
                   imageUpload: false,
@@ -160,6 +271,7 @@ import uangInput from '../../components/uang_input.vue';
                 ...mapState('pemasukan_stores', {                 
                     pemasukan: state => state.pemasukan,
                     pesan : state => state.pesan,
+                    foto_db : state => state.foto_db  
                 }),                
                 ...mapState('user', {
                     authenticated : state => state.authenticated
@@ -185,6 +297,13 @@ import uangInput from '../../components/uang_input.vue';
                 ...mapMutations('pemasukan_stores', ['CLEAR_FORM', 'SHOW_FOTO', 'SIMPAN_FOTO']),
                 ...mapActions('pemasukan_stores', ['update_pemasukan']),    
                       ...mapActions('kas_stores', ['get_kas']),  
+                          tambah_foto() {                                   
+                                this.pemasukan.jumlah_gambar =    this.pemasukan.jumlah_gambar +1;                 
+                          },
+                          hapus_foto() {
+                                  this.pemasukan.jumlah_gambar =    this.pemasukan.jumlah_gambar -1;                 
+                              
+                          },                  
                       handleProcessed(param) {                        
                           this.pemasukan.total = param.total;
                           var labelDicari = param.kategori;
@@ -194,16 +313,22 @@ import uangInput from '../../components/uang_input.vue';
                           this.pemasukan.kategori_id = hasil.value;
                             this.pemasukan.user_id = this.authenticated.id;                        
                       },                                               
-              uploadImage(event) {  
-                  let poto = event.target.files[0];   //file yang dikirim ke db               
-                  let tampil_foto =   URL.createObjectURL(poto)            
+              uploadImage(event, lokasi) {  
+                 let poto = event.target.files[0];   //file yang dikirim ke db               
+                  let tampil_foto =  {
+                    a : URL.createObjectURL(poto),
+                    b : lokasi  
+                  };
+                  var simpan = {
+                    a : poto,
+                    b : lokasi
+                  };
                 this.SHOW_FOTO(tampil_foto) //ini kirim ke vuex utk citra
-                 this.SIMPAN_FOTO(poto) //ini simpan db
-              
+                 this.SIMPAN_FOTO(simpan) //ini simpan db              
               }, 
-                captureImage() {
-                  const video = this.$refs.video;
-                  const canvas = this.$refs.canvas;
+                captureImage(foto, a, b) {
+                  const video = this.$refs[a];
+                  const canvas = this.$refs[b];
                   const context = canvas.getContext("2d");
 
                   // Set ukuran canvas sama dengan video
@@ -220,20 +345,31 @@ import uangInput from '../../components/uang_input.vue';
                                 type: "image/jpeg",
                                 lastModified: Date.now(),
                               });  
-                              console.info('foto kamera', '')                 
-                    this.SIMPAN_FOTO(file) //ini simpan db  
-                    this.SHOW_FOTO(URL.createObjectURL(blob)) //ini kirim ke vuex utk citra
+                              console.info('foto kamera', '')   
+                            let simpan = {
+                              a : file,
+                              b : foto
+                            };        
+                    this.SIMPAN_FOTO(simpan) //ini simpan db  
+
+                    
+                 let show = {
+                   a : URL.createObjectURL(blob),
+                   b : foto
+                 };
+                    this.SHOW_FOTO(show) //ini kirim ke vuex utk citra
                                        
                   }, "image/jpeg");
-                     this.mulai_kamera = true;                             
+                     this.mulai_kamera[foto] = true;                             
                 },
-               async startCamera() {
-                  this.SHOW_FOTO('') //ini kirim ke vuex utk citra
-                 this.SIMPAN_FOTO('') //ini simpan db
+               async startCamera(foto, a) {                
+           
+                this.pemasukan[foto] = '';
+                this.foto_db[foto] = '';
                     try {
                       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                      this.$refs.video.srcObject = stream;
-                         this.mulai_kamera = false;
+                      this.$refs[a].srcObject = stream;
+                         this.mulai_kamera[foto] = false;
                     } catch (error) {
                       console.error("Gagal mengakses kamera:", error);
                       alert("Kamera tidak dapat diakses. Pastikan izin diberikan.");

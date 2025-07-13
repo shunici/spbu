@@ -14,15 +14,24 @@ const state = () => ({
         user : '',
         rekapitulasi_id : '',  
         foto : '',
+        foto1 : '',
+        foto2 : '',
+        foto3 : '',
         kas : 'kantor',   
-        tgl : moment().format('YYYY-MM-DD HH:mm:ss')                 
+        tgl : moment().format('YYYY-MM-DD HH:mm:ss'),               
+        jumlah_gambar : 0,
     },  
  //pemasukan tabel
         data_pemasukan: [],
         kategori_header: [],
         kategori_total : [],      
   //tutu pemasukan tabel
-    foto_db : '',
+  foto_db : {
+    foto : '',
+    foto1 : '',
+    foto2 : '',
+    foto3 : ''
+},
     selected_kategori :  { value: '', label: 'PILIH KATEGORI' },
     page: 1,
     perHalaman : 25,
@@ -74,8 +83,12 @@ const mutations = {
         // state.pemasukan.kategori_id = '';   
         // state.pemasukan.user_id = '';  
         state.pemasukan.rekapitulasi_id = ''; 
-        state.pemasukan.foto = ''; 
-        state.foto_db = "";
+        state.pemasukan.foto = '';
+        state.pengeluaran.jumlah_gambar = 0;  
+        state.foto_db.foto = "";
+        state.foto_db.foto1 = "";
+        state.foto_db.foto2 = "";
+        state.foto_db.foto3 = "";
         state.pemasukan.tgl = moment().format('YYYY-MM-DD HH:mm:ss');        
        },
 
@@ -97,15 +110,19 @@ const mutations = {
         state.pemasukan.kas =payload.kas;  
         state.pemasukan.kategori_id =payload.kategori_id; 
         state.pemasukan.rekapitulasi_id =payload.rekapitulasi_id;
-        state.pemasukan.user_id =payload.user_id;     
+        state.pemasukan.user_id =payload.user_id;        
         state.pemasukan.foto = '/storage/pemasukan/' + payload.foto; 
-        state.pemasukan.tgl =payload.tgl;  
+        state.pemasukan.foto1 = '/storage/pemasukan/' + payload.foto1; 
+        state.pemasukan.foto2 = '/storage/pemasukan/' + payload.foto2; 
+        state.pemasukan.foto3 = '/storage/pemasukan/' + payload.foto3; 
+        state.pemasukan.tgl =payload.tgl; 
+        state.pemasukan.jumlah_gambar =payload.jumlah_gambar;   
     },            
     SHOW_FOTO(state, payload) {
-        state.pemasukan.foto =  payload   
+        state.pemasukan[payload.b] =  payload.a   
     },  
     SIMPAN_FOTO(state, payload) {
-        state.foto_db =  payload   
+        state.foto_db[payload.b] =  payload.a   
     },
 }
 
@@ -153,8 +170,11 @@ const actions = {
         form.append('kategori_id', state.pemasukan.kategori_id)
         form.append('user_id', state.pemasukan.user_id)
         form.append('rekapitulasi_id', state.pemasukan.rekapitulasi_id)
-        form.append('kas', state.pemasukan.kas)
-        form.append('foto', state.foto_db)
+        form.append('kas', state.pemasukan.kas)      
+        form.append('foto', state.foto_db.foto)
+        form.append('foto1', state.foto_db.foto1)
+        form.append('foto2', state.foto_db.foto2)
+        form.append('foto3', state.foto_db.foto3)
         form.append('tgl', state.pemasukan.tgl)
 
         return new Promise((resolve, reject) => {
@@ -208,8 +228,11 @@ const actions = {
         form.append('kategori_id', state.pemasukan.kategori_id)
         form.append('user_id', state.pemasukan.user_id)
         form.append('rekapitulasi_id', state.pemasukan.rekapitulasi_id)
-        form.append('kas', state.pemasukan.kas)
-        form.append('foto', state.foto_db)    
+        form.append('kas', state.pemasukan.kas)     
+        form.append('foto', state.foto_db.foto)
+        form.append('foto1', state.foto_db.foto1)
+        form.append('foto2', state.foto_db.foto2)
+        form.append('foto3', state.foto_db.foto3) 
         form.append('tgl', state.pemasukan.tgl) 
         return new Promise((resolve, reject) => {
             $axios.post(`/pemasukan/update/${state.id}`, form,{

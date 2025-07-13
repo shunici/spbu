@@ -5,7 +5,8 @@
                                  
                  <button  type="button" class="btn btn-outline-primary " @click="$router.go(-1)">
                      <i class="fa fa-calendar mr-1"></i>    kembali
-                </button>            
+                </button>       
+ <button @click="cetakPDF" class="btn btn-outline-info mr-1"> <i class="fa fa-print"></i> Cetak</button>      
             </div> <!-- dflex -->
             <hr>
             <div class="card-header row no-print">
@@ -61,8 +62,8 @@
                      <div v-html="truncateHtml(row.uraian, 40)"></div>     
                          
                         <b-popover :target="'popover-target-'  + index" triggers="hover" placement="right">   
-                          <div v-html="row.uraian"></div>
-                            <img class="img-fluid" v-b-modal.pengeluaran-mdl :src="'/storage/pengeluaran/'+row.foto" alt="Photo" width="100" @click="modal_gambar(row.foto, row.uraian)">
+                          <div v-html="row.uraian" v-b-modal.pengeluaran-mdl></div>
+                            <img  class="img-fluid" v-b-modal.pengeluaran-mdl :src="'/storage/pengeluaran/'+row.foto" alt="Photo" width="100" @click="modal_gambar(row.foto, row.foto1, row.foto2, row.foto3, row.uraian)">
                             <p>Transaksi dibuat {{tgl_detil(row.tgl)}}</p>
                                  
                         </b-popover>                   
@@ -89,8 +90,12 @@
      </table>       
      
                                       <b-modal id="pengeluaran-mdl" size="xl"   hide-footer>    
-                                        <div v-html="uraian"></div>                                    
-                                     <img class="img-fluid" v-b-modal.pengeluaran-mdl :src="'/storage/pengeluaran/'+foto" alt="">
+                                      <div v-html="uraian"></div>                                    
+                            <img   @error="event => event.target.style.display = 'none'"  :src="'/storage/pengeluaran/'+foto">
+                            <img  @error="event => event.target.style.display = 'none'"   :src="'/storage/pengeluaran/'+foto1">
+                            <img  @error="event => event.target.style.display = 'none'"   :src="'/storage/pengeluaran/'+foto2">
+                            <img  @error="event => event.target.style.display = 'none'"  :src="'/storage/pengeluaran/'+foto3">
+
                                       </b-modal>                                        
          </div>
     </div>
@@ -112,6 +117,9 @@ moment.locale('id');
                 years: [],                  
                 months: moment.months(), // Get month names from moment.js
                 foto : '',
+                foto1 : '',
+                foto2 : '',
+                foto3 : '',
                 uraian : '',
             
                
@@ -183,8 +191,11 @@ moment.locale('id');
            },
         methods : {
               ...mapActions('pengeluaran_stores', ['get_pengeluaran_tabel']),  
-              modal_gambar(poto, uraian){
-                   this.foto = poto;
+              modal_gambar(a, b, c, d, uraian){
+                    this.foto = a;
+                    this.foto1 = b;
+                    this.foto2 = c;
+                    this.foto3 = d;
                    this.uraian = uraian                 
               },
               stripHtml(html) {
@@ -204,7 +215,8 @@ moment.locale('id');
                         // Potong teks (jaga agar HTML tidak rusak)
                         // const truncatedText = text.length > length ? text.substring(0, length) + "..." : text;
 
-                        return text;
+                         //hilangkan watermark frala
+                        return text.replace(/Powered by Froala Editor\s*/g, '')
                   }, 
             formatCurrency(value) {
                 var angka = value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
@@ -225,8 +237,16 @@ moment.locale('id');
             },
              formatMonth(month) {
                 return month < 10 ? `0${month}` : `${month}`; // Format month to '01', '02', etc.
-                },                              
-            
+                },                            
+                                    
+                  cetakPDF() {
+                      const baseApi = window.baseApiUrl || '/api';
+                      const bulan = this.bulan;  // pastikan ada di data/computed
+                      const tahun = this.tahun;
+
+                      const url = `${baseApi}/laporan-pengeluaran?bulan=${bulan}&tahun=${tahun}`;
+                      window.open(url, '_blank');
+                  } 
             
         }
     }

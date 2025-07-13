@@ -12,6 +12,10 @@ const state = () => ({
         user : '',
         rekapitulasi_id : '',  
         foto : '',  
+        foto1 : '',
+        foto2 : '',
+        foto3 : '',
+        jumlah_gambar : 0,
         kas : 'kantor',  
         tgl : moment().format('YYYY-MM-DD HH:mm:ss'),                      
     },  
@@ -20,8 +24,13 @@ const state = () => ({
  data_pengeluaran: [],
  kategori_header: [],
  kategori_total : [],      
-//tutu pengeluaran tabel
-    foto_db : '',
+//tutu pengeluaran tabel   
+    foto_db : {
+        foto : '',
+        foto1 : '',
+        foto2 : '',
+        foto3 : ''
+    },
     selected_kategori :  { value: '', label: 'PILIH KATEGORI' },  
     id: '',
     urutan : 'desc',  
@@ -75,11 +84,14 @@ const mutations = {
         // state.pengeluaran.user_id = '';  
         state.pengeluaran.rekapitulasi_id = ''; 
         state.pengeluaran.foto = '';   
-        state.foto_db = "";
+        state.pengeluaran.jumlah_gambar = 0; 
+        state.foto_db.foto = "";
+        state.foto_db.foto1 = "";
+        state.foto_db.foto2 = "";
+        state.foto_db.foto3 = "";
         state.pengeluaran.tgl = moment().format('YYYY-MM-DD HH:mm:ss');        
              
        },
-
     SET_PAGE(state, payload) {
         state.page = payload
     },
@@ -100,13 +112,17 @@ const mutations = {
         state.pengeluaran.rekapitulasi_id =payload.rekapitulasi_id;
         state.pengeluaran.user_id =payload.user_id;     
         state.pengeluaran.foto = '/storage/pengeluaran/' + payload.foto; 
+        state.pengeluaran.foto1 = '/storage/pengeluaran/' + payload.foto1; 
+        state.pengeluaran.foto2 = '/storage/pengeluaran/' + payload.foto2; 
+        state.pengeluaran.foto3 = '/storage/pengeluaran/' + payload.foto3; 
         state.pengeluaran.tgl =payload.tgl;  
+        state.pengeluaran.jumlah_gambar =payload.jumlah_gambar;  
     },            
     SHOW_FOTO(state, payload) {
-        state.pengeluaran.foto =  payload   
+        state.pengeluaran[payload.b] =  payload.a   
     },  
     SIMPAN_FOTO(state, payload) {
-        state.foto_db =  payload   
+        state.foto_db[payload.b] =  payload.a   
     },
 }
 
@@ -142,7 +158,7 @@ const actions = {
                 }
             })
             .then((response) => {             
-            console.info('pengeluaran tabel', response.data)           
+            // console.info('pengeluaran tabel', response.data)           
                 commit('ASSIGN_DATA_TABEL', response.data)              
                 resolve(response.data)
             })
@@ -156,8 +172,12 @@ const actions = {
         form.append('user_id', state.pengeluaran.user_id)
         form.append('rekapitulasi_id', state.pengeluaran.rekapitulasi_id)      
         form.append('kas', state.pengeluaran.kas)
-        form.append('foto', state.foto_db)
+        form.append('foto', state.foto_db.foto)
+        form.append('foto1', state.foto_db.foto1)
+        form.append('foto2', state.foto_db.foto2)
+        form.append('foto3', state.foto_db.foto3)
         form.append('tgl', state.pengeluaran.tgl)
+        form.append('jumlah_gambar', state.pengeluaran.jumlah_gambar)
         console.info('pengeluaran', form)
         return new Promise((resolve, reject) => {
             $axios.post(`/pengeluaran`, form, {
@@ -209,8 +229,12 @@ const actions = {
         form.append('user_id', state.pengeluaran.user_id)
         form.append('rekapitulasi_id', state.pengeluaran.rekapitulasi_id)
         form.append('kas', state.pengeluaran.kas)
-        form.append('foto', state.foto_db)   
-        form.append('tgl', state.pengeluaran.tgl)  
+        form.append('foto', state.foto_db)          
+        form.append('foto1', state.foto_db.foto1)
+        form.append('foto2', state.foto_db.foto2)
+        form.append('foto3', state.foto_db.foto3) 
+        form.append('tgl', state.pengeluaran.tgl) 
+        form.append('jumlah_gambar', state.pengeluaran.jumlah_gambar) 
         return new Promise((resolve, reject) => {
             $axios.post(`/pengeluaran/update/${state.id}`, form,{
                 headers: {'Content-Type': 'multipart/form-data'}

@@ -62,8 +62,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::resource('/pemasukan', 'API\pemasukanController')->except(['update', 'store']);
     Route::post('pemasukan', 'API\pemasukanController@store')->name('pemasukan.store');
     Route::post('pemasukan/update/{id}', 'API\pemasukanController@update')->name('pemasukan.update');    
-    Route::get('/pemasukan-tabel', 'API\pemasukanController@pemasukantabel');
-
+    Route::get('/pemasukan-tabel', 'API\pemasukanController@pemasukantabel');    
     //rekapitulasi
     Route::resource('/rekapitulasi', 'API\rekapitulasiController')->except(['update', 'store', 'index']);
 //kas
@@ -159,3 +158,6 @@ Route::post('/upload_pengeluaran', 'API\pengeluaranController@upload')->name('pe
 Route::post('/delete_pengeluaran','API\pengeluaranController@deleteImage')->name('pengeluaran.hapus');   
 Route::get('/load_pengeluaran', 'API\pengeluaranController@loadImages')->name('pengeluaran.load'); 
 
+//ngeprint
+Route::get('/laporan-pemasukan', 'API\pemasukanController@cetakPDF');
+Route::get('/laporan-pengeluaran', 'API\pengeluaranController@cetakPDF');

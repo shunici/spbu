@@ -157,7 +157,10 @@
                 </template>
                 <template #row-details="row">
                     <div :key="'detail' + row.index" class="card-body bg-white" >                                       
-                            <img class="img-fluid" :src="'/storage/pengeluaran/'+row.item.foto" alt="Photo">
+                            <img   @error="event => event.target.style.display = 'none'" class="img-fluid" :src="'/storage/pengeluaran/'+row.item.foto">
+                            <img  @error="event => event.target.style.display = 'none'"  class="img-fluid" :src="'/storage/pengeluaran/'+row.item.foto1">
+                            <img  @error="event => event.target.style.display = 'none'"  class="img-fluid" :src="'/storage/pengeluaran/'+row.item.foto2">
+                            <img  @error="event => event.target.style.display = 'none'" class="img-fluid" :src="'/storage/pengeluaran/'+row.item.foto3">
                                 <hr>
                                 <strong><i class="fa fa-briefcase mr-1"></i> Kategori</strong>
                                 <p class="text-muted">{{row.item.kategori.nama}}</p>
